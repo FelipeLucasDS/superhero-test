@@ -1,8 +1,11 @@
 const http = require('http');
 const app = new (require('koa'))();
 const router = require('./api/routes/routes');
-  
+const logger = require('koa-logger')
+
+
 app
+  .use(logger())
   .use(router.routes())
   .use(router.allowedMethods());
 
