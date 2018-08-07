@@ -1,0 +1,41 @@
+{
+    "success": { 
+        "user": {
+            "create": "Usuário criado com sucesso."
+        },
+        "offer": {
+            "desblockOK": "Desbloqueio com sucesso."
+        },
+        "cupon": "Cupom enviado com sucesso",
+        "cashback": "Pedido de cashback realizado com sucesso."
+        
+    },
+    "error": { 
+        "unauthorized": "Não autorizado",
+        "need_vars": "São necessárias mais variáveis.",
+        "upload": "Houve um problema no upload da imagem..",
+        "user": {
+            "create": {
+                "missingInformation": "Por favor, preencha todas as informações.",
+                "emailInvalid": "E-mail inválido.",
+                "password": "O password está inválido.",
+                "cpf": "CPF inválido ou inexistente.",
+                "age": "O usuário tem menos de 18 anos.",
+                "cpfOnSystem": "CPF já cadastrado. Confirme seu CPF e tente novamente ou entre em contato com nossos técnicos através do email suporte@picmoney.com.br.",
+                "emailOnSystem": "E-mail já cadastrado. Confirme seu e-mail e tente novamente ou entre em contato com nossos técnicos através do email suporte@picmoney.com.br.",
+                "cellOnSystem": " Celular já cadastrado. Confirme seu celular e tente novamente ou entre em contato com nossos técnicos através do email."
+            }
+        },
+        "login": "Usuário ou senha inválidos. Confirme seus dados e tente novamente.",
+        "offer": {
+            "desblockError": "Não foi possível realizar este desbloqueio.",
+            "expired": "Esta oferta já expirou.",
+            "invalidToUser": "Você não pode ver esta oferta."              
+        },
+        "cupon": "Houve um problema no envio do cupom",
+        "desblock": "Oferta já desbloqueada.",
+        "commonError": "Não foi possível realizar sua ação, por favor, tente novamente.",
+        "cashback": "Não é possível fazer o cashback deste valor."
+    }
+}
+  
