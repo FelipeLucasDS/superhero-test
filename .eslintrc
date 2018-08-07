@@ -1,0 +1,13 @@
+{
+    "plugins": ["node"],
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "node/no-missing-import":"error",
+        "node/exports-style": 0,
+        "no-console": ["error",{ "allow": ["warn", "error"] }],
+        "node/no-unsupported-features": 0
+    }
+}
