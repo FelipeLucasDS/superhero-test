@@ -7,37 +7,41 @@
     "node": "^9.11.2"
   },
   "scripts": {
-    "start": "nodemon index.js",
-    "e2e": "rm -rf node_modules/ && samples test build --deploy --timeout 20m --builderProject $GCLOUD_PROJECT",
-    "dev": "nodemon index.js",
+    "start": "nodemon src/index.js",
     "lint": "eslint .",
+    "doc": "jsdoc -c jsdoc.json .",
     "test": "mocha --recursive --reporter list --timeout 100000 --exit",
-    "test_unit": "mocha -g '^Unit' --recursive --timeout 100000 --reporter list --exit",
-    "test_integration": "mocha -g '^Integration' --recursive --timeout 100000 --reporter list --exit",
-    "docker:start": "./env/docker/run.sh",
-    "docker:test": "./env/docker/test.sh unit",
-    "docker:itest": "./env/docker/test.sh integration",
-    "docker:deploy": "./env/docker/deploy.sh",
-    "docker:logs": "./env/docker/logs.sh",
-    "docker:install": "./env/docker/create_image.sh"
+    "docker:start": "docker-compose up",
+    "docker:install": "docker-compose build",
+    "docker": "docker-compose build && docker-compose up"
   },
   "keywords": [],
   "author": "Felipe Lucas",
   "license": "IS  C",
   "dependencies": {
+    "@koa/cors": "^2.2.2",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
     "install": "^0.12.1",
     "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-helmet": "^4.0.0",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
+    "koa-winston": "0.0.1",
+    "mysql2": "^1.6.1",
     "nodemon": "^1.18.3",
-    "npm": "^6.3.0"
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.0.0",
     "mocha": "^4.0.1",
-    "chai-as-promised": "^7.1.1"
+    "jsdoc": "^3.5.5",
+    "node-fetch": "^2.2.0",
+    "nyc": "^13.0.1"
   }
 }

@@ -1,0 +1,30 @@
+{
+	"port": 4440,
+	"defaultItemsPerPage": 10,
+	"auth": {
+		"saltRounds": 10,
+		"keyPath": "./src/config/auth-secret.pem",
+		"jwtSession": {
+			"session": false
+		}
+	},
+	"token": {
+		"expiresIn": "1d"
+	},
+	"db": {
+		"database": "superheroes",
+		"username": "superuser",
+		"password": "superpass",
+		"params": {
+			"port": 4441,
+			"host": "127.0.0.1",
+			"dialect": "mysql",
+			"logging": false,
+			"operatorsAliases": false,
+			"storage": "superheroes",
+			"define": {
+				"underscored": false
+			}
+		}
+	}
+}
