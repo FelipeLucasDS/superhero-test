@@ -10,12 +10,12 @@ module.exports = app => {
   const User = app.db.User;
 
   passport.serializeUser((user, done) => { 
-    //TODO
-    done(null, user.username); 
+    done(null, user.toJSON()); 
   });
 
-  passport.deserializeUser((id, done) => {
-    return User.findById(id)
+  passport.deserializeUser((user, done) => {
+    console.log(user)
+    return User.findById(user.id)
     .then((user) => { done(null, user); })
     .catch((err) => { done(err, null); });
   });
