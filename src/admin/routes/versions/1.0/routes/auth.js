@@ -2,6 +2,7 @@ const router = new (require('koa-router'))();
 const passport = require('koa-passport');
 const fs = require('fs');
 
+const bcrypt = require('../../../../../lib/helpers/bcrypt');
 const User = require('./../../../../models/user');
 
 const ensureAuthenticated = (context)=> {
@@ -25,10 +26,10 @@ const ensureAdmin = (context) => {
 
 router.post('/login', async (ctx) => {
     return passport.authenticate('local', (err, user, info, status) => {
-
       if (user) {
         ctx.login(user);
-        ctx.body = { err, user, info, status };
+
+        ctx.body = { token: bcrypt.generateJWT(user) }
       } else {
         ctx.status = 400;
         ctx.body = { err, user, info, status };

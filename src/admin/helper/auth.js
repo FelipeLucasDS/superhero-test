@@ -1,6 +1,8 @@
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+const bcrypt = require('../../lib/helpers/bcrypt');
+
 const options = {};
 
 module.exports = app => {
@@ -26,7 +28,7 @@ module.exports = app => {
       
       user = user.dataValues;
 
-      if (password === user.password) {
+      if (bcrypt.checkPassword(password, user.password)) {
           return done(null, user);
       } else {
         return done(null, false);
