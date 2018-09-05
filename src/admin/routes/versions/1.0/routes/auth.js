@@ -23,20 +23,16 @@ const ensureAdmin = (context) => {
 }
 
 router.post('/login', async (ctx) => {
-  try{
-    console.log('loggging')
     return passport.authenticate('local', (err, user, info, status) => {
+
       if (user) {
         ctx.login(user);
+        ctx.body = { err, user, info, status };
       } else {
         ctx.status = 400;
         ctx.body = { err, user, info, status };
       }
-      console.log('e', err, user, info, status)
     })(ctx);
-  }catch(e){
-    console.log(e, err, user, info, status)
-  }
 });
 
 router.get('/logout', async (ctx) => {

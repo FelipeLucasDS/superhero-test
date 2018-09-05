@@ -6,8 +6,6 @@ var basename  = path.basename(__filename);
 
 module.exports = app => {
 
-	console.log(app.config.db)	
-
 	const sequelize = new Sequelize(
 		app.config.db.database,
 		app.config.db.username,
@@ -39,6 +37,15 @@ module.exports = app => {
 		db[model.name] = model;
 	});
 
+	Object.keys(db).forEach(modelName => {
+		if (db[modelName].associate) {
+			db[modelName].associate(db);
+		}
+	});
+
+
+	db.sequelize = sequelize;
+	db.Sequelize = Sequelize;
 
 	return db;
 };

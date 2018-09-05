@@ -1,29 +1,39 @@
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const User = require('../models/user'); 
-
 const options = {};
 
-passport.serializeUser((user, done) => { done(null, user.id); });
+module.exports = app => {
 
-passport.deserializeUser((id, done) => {
-  console.log('UserUserUser', User)
-  return User.findById(id)
-  .then((user) => { done(null, user); })
-  .catch((err) => { done(err,null); });
-});
+  const User = app.db.User;
 
-passport.use(new LocalStrategy(options, (username, password, done) => {
-  console.log('UserUserUser', User)
-  User.findOne({ where: { username } })
-  .then((user) => {
-    if (!user) return done(null, false);
-    if (password === user.password) {
-      return done(null, user);
-    } else {
-      return done(null, false);
-    }
-  })
-  .catch((err) => { return done(err); });
-}));
+  passport.serializeUser((user, done) => { 
+    //TODO
+    done(null, user.username); 
+  });
+
+  passport.deserializeUser((id, done) => {
+    return User.findById(id)
+    .then((user) => { done(null, user); })
+    .catch((err) => { done(err, null); });
+  });
+
+  passport.use(new LocalStrategy(options, (username, password, done) => {
+    User.findOne({ where: { username } })
+    .then((user) => {
+      if (!user) 
+        return done(null, false);
+      
+      user = user.dataValues;
+
+      if (password === user.password) {
+          return done(null, user);
+      } else {
+        return done(null, false);
+      }
+    })
+    .catch((err) => { 
+      return done(err); 
+    });
+  }));
+}

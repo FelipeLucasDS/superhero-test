@@ -5,7 +5,6 @@ const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
 const HttpStatus = require('../lib/helpers/http').status;
 
-const Sequelize = require('./middleware/sequelize');
 const Logger = require('./middleware/logger');
 
 module.exports = app => {
@@ -18,11 +17,8 @@ module.exports = app => {
 		jsonLimit: '50mb'
 	}));
 
-	
 	app.use(helmet());
-	Sequelize(app);
 	Logger(app);
-
 
 	app.start();
 };

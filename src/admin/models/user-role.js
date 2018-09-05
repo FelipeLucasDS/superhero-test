@@ -1,16 +1,14 @@
-
 module.exports = (sequelize, DataType) => {
 
 	const UserRole = sequelize.define('UserRole', {
-		name: {
-			type: DataType.STRING,
-			allowNull: false,
+		id: {
+			type: DataType.INTEGER,
 			primaryKey: true,
-			unique: true
+			autoIncrement: true,
 		},
-		description: {
-			type: DataType.STRING,
-			allowNull: true
+		name: {
+			type:   DataType.ENUM,
+			values: ['ADMIN', 'STANDARD']
 		}
 	}, { timestamps: false });
 

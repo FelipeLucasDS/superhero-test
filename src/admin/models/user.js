@@ -1,13 +1,18 @@
 
-const crypt = require('../helper/bcrypt');
+const Sequelize = require('sequelize');
+const bcrypt = require('../helper/bcrypt');
 
 module.exports = (sequelize, DataType) => {
 
 	const User = sequelize.define('User', {
+		id: {
+			type: DataType.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		username: {
 			type: DataType.STRING,
 			allowNull: false,
-			primaryKey: true,
 			unique: true
 		},
 		name: {
@@ -17,31 +22,27 @@ module.exports = (sequelize, DataType) => {
 		password: {
 			type: DataType.STRING,
 			allowNull: false,
-			validate: {
-				notEmpty: true,
-				len: [4, 12]
-			}
 		}
 	}, { timestamps: false });
 
 	User.hook('beforeCreate', async user => {
-		user.password = await crypt.encodePassword(user.password);
+		user.password = await bcrypt.encodePassword(user.password);
 	});
 
 	User.hook('beforeUpdate', async user => {
 		if (user.password) {
-			user.password = await crypt.encodePassword(user.password);
+			user.password = await bcrypt.encodePassword(user.password);
 		}
 	});
 
 	User.checkPassword = async (plainPassword, encodedPassword) => {
-		return await crypt.checkPassword(plainPassword, encodedPassword);
+		return await bcrypt.checkPassword(plainPassword, encodedPassword);
 	};
 
 	User.associate = models => {
 		User.belongsTo(models.UserRole, {
 			foreignKey: {
-				name: 'roleId',
+				name: 'id',
 				allowNull: false
 			}
 		});
