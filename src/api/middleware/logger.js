@@ -1,5 +1,5 @@
 
-const winston = require('koa-winston');
+const winston = require('winston');
 
 module.exports = app => {
 

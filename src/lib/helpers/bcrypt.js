@@ -1,7 +1,3 @@
-/**
- * Crypt module is used to encode and check user passwords.
- * @module lib/helpers/crypt
- */
 
 const fs = require('fs');
 const bcrypt = require('bcrypt');
@@ -9,6 +5,11 @@ const jwt = require('jsonwebtoken');
 
 const config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 config.token.secret = fs.readFileSync(config.auth.keyPath);
+
+module.exports.encrypt = toEncrypt => {
+	const salt = await bcrypt.genSalt(config.auth.saltRounds);
+	return await bcrypt.hash(password, salt);
+};
 
 /**
  * Generates a JWT with the given payload.
@@ -19,17 +20,6 @@ module.exports.generateJWT = async payload => {
 	return await jwt.sign(payload, config.token.secret, {
 		expiresIn: config.token.expiresIn
 	});
-};
-
-/**
- * Encodes a password by generating a new salt, crypting ans hashing it.
- * @param {String} password Password to be encoded as plain string.
- * @returns {String} Base64 encoded password.
- */
-module.exports.encodePassword = async password => {
-	// more info at https://github.com/kelektiv/node.bcrypt.js#a-note-on-rounds
-	const salt = await bcrypt.genSalt(config.auth.saltRounds);
-	return await bcrypt.hash(password, salt);
 };
 
 /**

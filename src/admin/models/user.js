@@ -1,5 +1,5 @@
 
-const crypt = require('../lib/helpers/crypt');
+const crypt = require('../helper/bcrypt');
 
 module.exports = (sequelize, DataType) => {
 

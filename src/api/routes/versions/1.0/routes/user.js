@@ -1,7 +1,9 @@
 const router = new (require('koa-router'))();
+const convert = require('koa-convert')
+var jwt = require('koa-jwt');
 
 router
-.get('/', (ctx, next) => {
+  .all('/', (ctx, next) => {
     ctx.body = 'rooms API!';
   })
   .post('/', (ctx, next) => {

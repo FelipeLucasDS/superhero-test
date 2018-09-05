@@ -3,7 +3,7 @@
 	"defaultItemsPerPage": 10,
 	"auth": {
 		"saltRounds": 10,
-		"keyPath": "./src/config/auth-secret.pem",
+		"keyPath": "./src/pem/auth-secret.pem",
 		"jwtSession": {
 			"session": false
 		}
@@ -13,17 +13,23 @@
 	},
 	"db": {
 		"database": "superheroes",
-		"username": "superuser",
-		"password": "superpass",
+		"username": "root",
+		"password": "superheroes",
 		"params": {
-			"port": 4441,
-			"host": "127.0.0.1",
+			"port": 3306,
+			"host": "0.0.0.0",
 			"dialect": "mysql",
 			"logging": false,
 			"operatorsAliases": false,
 			"storage": "superheroes",
 			"define": {
 				"underscored": false
+			},
+			"pool": {
+				"max": 5,
+				"min": 0,
+				"acquire": 30000,
+				"idle": 10000
 			}
 		}
 	}

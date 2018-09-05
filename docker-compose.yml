@@ -13,17 +13,17 @@ services:
         networks: 
           - production-network
         environment:
-          - DB_HOST=db
           - DB_NAME=superheroes
           - DB_USER=root
           - DB_PASSWORD=superheroes
 
     db:
-      image: mysql:5
+      image: mysql:5.6
       restart: always
       ports:
-        - "33061:3306"
-      command: --init-file /data/application/init.sql
+        - "3306:3306"
+      volumes:
+        - ./data:/var/lib/mysql
       environment:
         MYSQL_ROOT_PASSWORD: superheroes
         MYSQL_DATABASE: superheroes

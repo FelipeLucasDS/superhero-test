@@ -1,18 +1,27 @@
 const http = require('http');
-const app = new (require('koa'))();
+const Koa = require('koa');
+const app = new Koa();
+const fs = require('fs');
 const router = require('./api/routes/routes');
+const adminRouter = require('./admin/routes/routes');
 const logger = require('koa-logger')
 
 const errorHandler = require('./api/middleware/errorHandler');
-const middleware = require('./api/middleware/index');
+const api = require('./api/index');
+const admin = require('./admin/index');
 
-app
-.use(logger())
-.use(router.routes())
-.use(router.allowedMethods()); 
+app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
-middleware(app);
+admin(app);
+api(app);
+app.use(logger());
+app.use(router.routes());
+app.use(adminRouter.routes());
+app.use(router.allowedMethods()); 
+
+
 
 app.on('error', errorHandler);
 
-http.createServer(app.callback()).listen(3000);
+
+http.createServer(app.callback()).listen(3001);
