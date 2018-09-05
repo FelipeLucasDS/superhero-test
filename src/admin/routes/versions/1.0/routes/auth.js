@@ -13,7 +13,8 @@ const ensureAdmin = (context) => {
     if (context.isAuthenticated()) {
       User.findOne(context.state.user.id)
       .then((user) => {
-        if (user && user[0].admin) resolve(true);
+        if (user && user.role === 'ADMIN') 
+            resolve(true);
         resolve(false);
       })
       .catch((err) => { reject(false); });

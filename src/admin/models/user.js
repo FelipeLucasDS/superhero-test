@@ -1,6 +1,6 @@
 
 const Sequelize = require('sequelize');
-const bcrypt = require('../helper/bcrypt');
+const bcrypt = require('../../lib/helpers/bcrypt');
 
 module.exports = (sequelize, DataType) => {
 

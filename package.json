@@ -13,7 +13,7 @@
     "test": "mocha --recursive --reporter list --timeout 100000 --exit",
     "docker:start": "docker-compose up",
     "docker:install": "docker-compose build",
-    "docker": "docker-compose build && docker-compose up"
+    "docker": "rm -rf node-modules && docker-compose build && docker-compose up"
   },
   "keywords": [],
   "author": "Felipe Lucas",
