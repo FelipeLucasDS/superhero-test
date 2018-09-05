@@ -1,24 +1,8 @@
 version: '3'
 
 services:
-    node-instance:
-        container_name: koa-base
-        image: sp/koa-base
-        restart: always
-        build: .
-        ports:
-          - "3000:3000"
-        links:
-          - db
-        networks: 
-          - production-network
-        environment:
-          - DB_NAME=superheroes
-          - DB_USER=root
-          - DB_PASSWORD=superheroes
-
-    db:
-      image: mysql:5.6
+    mysqlDB:
+      image: mysql:5.7
       restart: always
       ports:
         - "3306:3306"
@@ -31,6 +15,24 @@ services:
         MYSQL_PASSWORD: superheroes
       networks: 
         - production-network
+    node-instance:
+      container_name: superheroes
+      image: sp/superheroes
+      restart: always
+      build: .
+      ports:
+        - "3000:3000"
+      links:
+        - mysqlDB
+      networks: 
+        - production-network
+      environment:
+        - DB_NAME=superheroes
+        - DB_USER=root
+        - DB_PASSWORD=superheroes
+        - DB_HOST=172.16.121.94
+        - DB_PORT=3306
+        - ENV_PORT=3000 
 networks: 
     production-network:
         driver: bridge

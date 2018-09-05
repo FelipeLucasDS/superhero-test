@@ -23,11 +23,6 @@ app.use(router.routes());
 app.use(adminRouter.routes());
 app.use(router.allowedMethods()); 
 
-
-
 app.on('error', errorHandler);
 
-
-console.log(process.env)
-
-http.createServer(app.callback()).listen(3001);
+http.createServer(app.callback()).listen(process.env.ENV_PORT || 3001);

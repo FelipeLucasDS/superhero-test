@@ -3,7 +3,7 @@ module.exports = (sequelize, DataType) => {
 
 	const SuperPower = sequelize.define('SuperPower', {
 		id: {
-			type: DataType.INTEGER.UNSIGNED,
+			type: DataType.INTEGER,
 			primaryKey: true,
 			autoIncrement: true
 		},

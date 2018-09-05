@@ -3,7 +3,7 @@ module.exports = (sequelize, DataType) => {
 
 	const SuperHero = sequelize.define('SuperHero', {
 		id: {
-			type: DataType.INTEGER.UNSIGNED,
+			type: DataType.INTEGER,
 			primaryKey: true,
 			autoIncrement: true
 		},

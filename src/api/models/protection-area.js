@@ -3,7 +3,7 @@ module.exports = (sequelize, DataType) => {
 
 	const ProtectionArea = sequelize.define('ProtectionArea', {
 		id: {
-			type: DataType.INTEGER.UNSIGNED,
+			type: DataType.INTEGER,
 			primaryKey: true,
 			autoIncrement: true
 		},
