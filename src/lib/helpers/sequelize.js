@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-var basename  = path.basename(__filename);
+const basename  = path.basename(__filename);
 
 module.exports = app => {
 

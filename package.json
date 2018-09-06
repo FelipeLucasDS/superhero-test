@@ -7,7 +7,7 @@
     "node": "^9.11.2"
   },
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node src/index.js",
     "lint": "eslint .",
     "doc": "jsdoc -c jsdoc.json .",
     "test": "mocha --recursive --reporter list --timeout 100000 --exit",
@@ -38,6 +38,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.1.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {

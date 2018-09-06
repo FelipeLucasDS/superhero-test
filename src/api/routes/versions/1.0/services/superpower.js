@@ -6,48 +6,48 @@ module.exports = app => {
     const spRepo = SuperPowerRepo(app);
     const sequelize = app.sequelize;
 
-    class SuperPowerService {
-
-        async getAll (limit, order, where) {
-            return spRepo.getAll(limit, order, where);
-        }
+    const getAll = async (limit, order, where) => {
+        return spRepo.getAll(limit, order, where);
+    }
     
-        async getSingle(id) {
+    const getSingle = async (id) => {
             return spRepo.getSingle(id);
         }
     
-        async create (superpower) {
-            return sequelize.transaction().then(function (t) {
-                return spRepo.create(superpower, t)
-                .then(() => {
-                    return t.commit();
-                }).catch((err) => {
-                    return t.rollback();
-                });
+    const create = async (superpower)  => {
+        return sequelize.transaction().then(function (t) {
+            return spRepo.create(superpower, t)
+            .then(() => {
+                return t.commit();
+            }).catch((err) => {
+                return t.rollback();
             });
-        }
-    
-        async update (superpower){
-            return sequelize.transaction().then(function (t) {
-                return spRepo.update(superpower, t)
-                .then(() => {
-                    return t.commit();
-                }).catch((err) => {
-                    return t.rollback();
-                });
+        });
+    }
+
+    const update = async (superpower) => {
+        return sequelize.transaction().then(function (t) {
+            return spRepo.update(superpower, t)
+            .then(() => {
+                return t.commit();
+            }).catch((err) => {
+                return t.rollback();
             });
-        }
-    
-        async delete (id) {
-            return sequelize.transaction().then(function (t) {
-                return spRepo.delete(id, t)
-                .then(() => {
-                    return t.commit();
-                }).catch((err) => {
-                    return t.rollback();
-                });
+        });
+    }
+
+    const drop = async (id)  => {
+        return sequelize.transaction().then(function (t) {
+            return spRepo.drop(id, t)
+            .then(() => {
+                return t.commit();
+            }).catch((err) => {
+                return t.rollback();
             });
-        }
+        });
+    }
+
+    return {
+        getAll, getSingle, create, update, drop
     };
-    return SuperPowerService;
 };

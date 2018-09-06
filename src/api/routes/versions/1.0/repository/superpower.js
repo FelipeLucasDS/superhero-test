@@ -2,39 +2,33 @@ module.exports = app => {
 
     const SuperPower = app.db.SuperPower;
 
-    class SuperPowerRepository {
+    const getAll = async (limit, order, where) => {
+        return await SuperPower.findAll();
+    }
 
-        async getAll (limit, order, where) {
-            return await SuperPower.findAll({
-                limit: 100, 
-                order,
-                where
-              });
-        }
-    
-        async getSingle (id) {
-            return await SuperPower.findById(id);
-        }
+    const getSingle = async (id) => {
+        return await SuperPower.findById(id);
+    }
 
-        async getByName (name) {
-            return await  SuperPower.findOne({ where: { name } })
-        }
-    
-        async create (superpower, transaction) {
-            await SuperPower.create(superpower, {transaction});
-        }
-    
-        async update (superpower, transaction ){
-            await SuperPower.findOne({ where: superpower.id })
-            .then((sp)=>{
-                return sp.update(superpower, {transaction});
-            })
-        }
-    
-        async delete (id, transaction) {
-            await Model.destroy({ where: {id} }, {transaction})
-        }
+    const getByName = async (name) => {
+        return await  SuperPower.findOne({ where: { name } })
+    }
+
+    const create = async (superpower, transaction) => {
+        await SuperPower.create(superpower, {transaction});
+    }
+
+    const update = async (superpower, transaction ) => {
+        await SuperPower.findOne({ where: superpower.id })
+        .then((sp)=>{
+            return sp.update(superpower, {transaction});
+        })
+    }
+
+    const drop = async (id, transaction) => {
+        await Model.destroy({ where: {id} }, {transaction})
+    }
+    return {
+        getAll, getSingle, create, update, drop
     };
-
-    return SuperPowerRepository;
 };
