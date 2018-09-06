@@ -13,7 +13,7 @@ module.exports = app => {
 		process.env.DB_NAME || app.config.db.database,
 		process.env.DB_USER || app.config.db.username,
 		process.env.DB_PASSWORD ||  app.config.db.password,
-		app.config.db.params
+		app.config.db.params,
 	);
 
 	const db = {

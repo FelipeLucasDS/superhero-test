@@ -7,12 +7,9 @@ module.exports = app => {
   return router
     .get('/', (ctx, next) => {
       //get all superpowers paginated
-      ctx.body = JSON.stringify(ctx);
-      console.log(ctx.req.user)
-      console.log(ctx.query)
-      console.log(ctx.req.query)
-      ctx.body.user = ctx.req;
-      
+      const user = ctx.req.user;
+      const queryParams = ctx.query;
+      ctx.body = 'ok'; 
     })
     .get('/:id', (ctx, next) => {
       //get single superpower

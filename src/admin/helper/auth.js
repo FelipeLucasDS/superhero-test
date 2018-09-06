@@ -20,8 +20,10 @@ module.exports = app => {
   });
 
   passport.use(new LocalStrategy(options, (username, password, done) => {
+    console.log('here?')
     User.findOne({ where: { username } })
     .then((user) => {
+      console.log('her!', user)
       if (!user) 
         return done(null, false);
       

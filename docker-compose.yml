@@ -2,7 +2,7 @@ version: '3'
 
 services:
     mysqlDB:
-      image: mysql:5.7
+      image: mysql:5.6
       restart: always
       ports:
         - "3306:3306"
@@ -14,7 +14,8 @@ services:
         MYSQL_USER: root
         MYSQL_PASSWORD: superheroes
       networks: 
-        - production-network
+        - superhero-bridge
+
     node-instance:
       container_name: superheroes
       image: sp/superheroes
@@ -25,15 +26,15 @@ services:
       links:
         - mysqlDB
       networks: 
-        - production-network
+        - superhero-bridge
       environment:
         - DB_NAME=superheroes
         - DB_USER=root
         - DB_PASSWORD=superheroes
-        - DB_HOST=172.16.121.94
+        - DB_HOST=mysqlDB
         - DB_PORT=3306
         - ENV_PORT=3000 
 networks: 
-    production-network:
+    superhero-bridge:
         driver: bridge
         

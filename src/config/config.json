@@ -17,7 +17,7 @@
 		"password": "superheroes",
 		"params": {
 			"port": 3306,
-			"host": "172.16.121.94",
+			"host": "0.0.0.0",
 			"dialect": "mysql",
 			"logging": false,
 			"operatorsAliases": false,
