@@ -15,13 +15,12 @@ app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
 Sequelize(app);
 
-
 admin(app);
 api(app);
+
 app.use(logger());
-app.use(router.routes());
+app.use(router(app).routes());
 app.use(adminRouter.routes());
-app.use(router.allowedMethods()); 
 
 app.on('error', errorHandler);
 
