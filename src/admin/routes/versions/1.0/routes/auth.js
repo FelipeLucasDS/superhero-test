@@ -3,7 +3,7 @@ const passport = require('koa-passport');
 const fs = require('fs');
 
 const bcrypt = require('../../../../../lib/helpers/bcrypt');
-const User = require('./../../../../models/user');
+const User = require('./../../../../models/User');
 
 const ensureAuthenticated = (context)=> {
   return context.isAuthenticated();

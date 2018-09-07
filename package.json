@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "doc": "jsdoc -c jsdoc.json .",
     "test": "mocha --recursive --reporter list --timeout 100000 --exit",
+    "seq:migrate": "node_modules/.bin/sequelize db:migrate",
     "docker:start": "docker-compose up",
     "docker:install": "docker-compose build",
     "docker": "rm -rf node-modules && docker-compose build && docker-compose up"

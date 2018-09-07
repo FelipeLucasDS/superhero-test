@@ -4,9 +4,7 @@ const jwt = require('koa-jwt');
 const SuperPowerService = require("../services/superpower");
 
 module.exports = app => {
-  console.log(SuperPowerService)
   const sps = SuperPowerService(app);
-  console.log(sps)
   
   return router
     .get('/', async (ctx, next) => {

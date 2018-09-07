@@ -12,4 +12,4 @@ RUN npm rebuild bcrypt --update-binary
 
 COPY . /usr/src/koa-base
 EXPOSE 3000
-CMD sleep 15 && npm run start
+CMD npm run start

@@ -6,9 +6,6 @@ module.exports = app => {
     const spRepo = SuperPowerRepo(app);
     const sequelize = app.db.sequelize;
 
-    console.log(sequelize)
-    console.log(app.db.Sequelize)
-
     const getAll = async (limit, order, where) => {
         return spRepo.getAll(limit, order, where);
     }

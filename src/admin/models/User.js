@@ -22,10 +22,6 @@ module.exports = (sequelize, DataType) => {
 		password: {
 			type: DataType.STRING,
 			allowNull: false,
-		},
-		role: {
-			type:   DataType.ENUM,
-			values: ['ADMIN', 'STANDARD']
 		}
 	}, { timestamps: false });
 
@@ -41,6 +37,15 @@ module.exports = (sequelize, DataType) => {
 
 	User.checkPassword = (plainPassword, encodedPassword) => {
 		return bcrypt.checkPassword(plainPassword, encodedPassword);
+	};
+
+	User.associate = models => {
+		User.belongsTo(models.Role, {
+			foreignKey: {
+				name: 'role',
+				allowNull: false
+			}
+		});
 	};
 
 	return User;
