@@ -10,15 +10,14 @@ module.exports = app => {
         return await auditRepo.create(audit, t);
     }
 
-    const createBuild = async (entity, entityId, action, username, t) => {
-        
-        console.log('saving')
-        return await auditRepo.create({
-            entity,
-            entityId,
+    const createBuild = async (entity, action, username, t) => {
+        await auditRepo.create({
+            entity: entity.id,
+            entityId: entity.constructor.name,
             action,
             username
         }, t);
+        return entity
     }
 
     return {

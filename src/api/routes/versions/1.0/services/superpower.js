@@ -17,13 +17,13 @@ module.exports = app => {
         }
     
     const create = async (superpower, user)  => {
-        return sequelize.transaction().then(function (t) {
+        return await sequelize.transaction().then(function (t) {
                 return spRepo.create(superpower, t)
             .then(function (sp) {
-                return auditService.createBuild(SuperPower.getTableName(),
-                sp.id, 'CREATE', user.username, t)
-            }).then(function () {
-                 return t.commit();
+                return auditService.createBuild(sp, 'CREATE', user.username, t)
+            }).then(function (sp) {
+                t.commit();
+                return sp;
             }).catch(function (err) {
                 console.log(err)
                 return t.rollback();
