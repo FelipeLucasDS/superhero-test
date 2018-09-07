@@ -19,14 +19,14 @@ module.exports = app => {
     }
 
     const update = async (superpower, transaction ) => {
-        return await SuperPower.findOne({ where: superpower.id })
+        return await SuperPower.findById(superpower.id)
         .then((sp)=>{
             return sp.update(superpower, {transaction});
         })
     }
 
     const drop = async (id, transaction) => {
-        return await Model.destroy({ where: {id} }, {transaction})
+        return await SuperPower.destroy({ where: {id} }, {transaction})
     }
     return {
         getAll, getSingle, create, update, drop, getByName

@@ -24,11 +24,13 @@ module.exports = app => {
     .put('/:id', async (ctx, next) => {
       //update superpower
 
-      ctx.body = 'rooms API!';
+      const superPower = ctx.request.body;
+      superPower.id = ctx.params.id;
+      ctx.body = await sps.update(superPower, ctx.req.user);
     })
     .del('/:id', async (ctx, next) => {
       //delete superpower
 
-      ctx.body = 'rooms API!';
+      ctx.body = await sps.drop(ctx.params.id, ctx.req.user);
     });
 };
