@@ -5,7 +5,7 @@
 		"includePattern": ".+\\.js(doc|x)?$",
 		"excludePattern": "(^|\\/|\\\\)_",
 		"include": [ "README.md" ],
-		"exclude": [ "node_modules" ]
+		"exclude": [ "node_modules", "errors.log" ]
 	},
 	"tags": {
 		"allowUnknownTags": true,

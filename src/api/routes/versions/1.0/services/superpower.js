@@ -4,7 +4,10 @@ module.exports = app => {
 
     const SuperPower = app.db.SuperPower;
     const spRepo = SuperPowerRepo(app);
-    const sequelize = app.sequelize;
+    const sequelize = app.db.sequelize;
+
+    console.log(sequelize)
+    console.log(app.db.Sequelize)
 
     const getAll = async (limit, order, where) => {
         return spRepo.getAll(limit, order, where);

@@ -15,21 +15,21 @@ module.exports = app => {
       const queryParams = ctx.query;
       ctx.body = await sps.getAll(1, 1, 1);
     })
-    .get('/:id', (ctx, next) => {
+    .get('/:id', async (ctx, next) => {
       //get single superpower      
       ctx.body = ctx.req;
     })
-    .post('/', (ctx, next) => {
+    .post('/', async (ctx, next) => {
       //create superpower
-      console.log(sps.getAll);
-      ctx.body = ctx.request.body;//await sps.create(ctx.req);
+      console.log(ctx.request.body);
+      ctx.body = await sps.create(ctx.request.body);
     })
-    .put('/:id', (ctx, next) => {
+    .put('/:id', async (ctx, next) => {
       //update superpower
 
       ctx.body = 'rooms API!';
     })
-    .del('/:id', (ctx, next) => {
+    .del('/:id', async (ctx, next) => {
       //delete superpower
 
       ctx.body = 'rooms API!';
