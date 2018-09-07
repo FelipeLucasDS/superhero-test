@@ -19,8 +19,7 @@ module.exports = app => {
     })
     .post('/', async (ctx, next) => {
       //create superpower
-      console.log(ctx.request.body);
-      ctx.body = await sps.create(ctx.request.body);
+      ctx.body = await sps.create(ctx.request.body, ctx.req.user);
     })
     .put('/:id', async (ctx, next) => {
       //update superpower

@@ -15,20 +15,20 @@ module.exports = app => {
     }
 
     const create = async (superpower, transaction) => {
-        await SuperPower.create(superpower, {transaction});
+        return await SuperPower.create(superpower, {transaction});
     }
 
     const update = async (superpower, transaction ) => {
-        await SuperPower.findOne({ where: superpower.id })
+        return await SuperPower.findOne({ where: superpower.id })
         .then((sp)=>{
             return sp.update(superpower, {transaction});
         })
     }
 
     const drop = async (id, transaction) => {
-        await Model.destroy({ where: {id} }, {transaction})
+        return await Model.destroy({ where: {id} }, {transaction})
     }
     return {
-        getAll, getSingle, create, update, drop
+        getAll, getSingle, create, update, drop, getByName
     };
 };
