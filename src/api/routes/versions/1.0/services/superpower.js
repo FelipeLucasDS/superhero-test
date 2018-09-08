@@ -8,8 +8,20 @@ module.exports = app => {
     const auditService = AuditService(app);
     const sequelize = app.db.sequelize;
 
-    const getAll = async (limit, order, where) => {
-        return spRepo.getAll(limit, order, where);
+    const getAll = async (limit, page) => {
+        const offset = limit * (page - 1);
+       
+        const [data, count] = await Promise.all([
+            await spRepo.getAll(limit, offset),
+            await spRepo.count()
+        ])
+
+        const pages = Math.ceil(count / limit);
+
+        return {
+            data,
+            page: {page, pages}
+        };
     }
     
     const getSingle = async (id) => {

@@ -6,6 +6,7 @@ module.exports = err => {
     console.log(err)
     
     console.log("errouuu")
+    
 
     //log.error('server error', err)
 }

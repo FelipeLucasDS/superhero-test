@@ -4,14 +4,18 @@ const jwt = require('koa-jwt');
 const SuperPowerService = require("../services/superpower");
 
 module.exports = app => {
+
   const sps = SuperPowerService(app);
   
   return router
     .get('/', async (ctx, next) => {
       //get all superpowers paginated
       const user = ctx.req.user;
-      const queryParams = ctx.query;
-      ctx.body = await sps.getAll(1, 1, 1);
+
+      let page = ctx.query.page || 1;      // page number
+      let limit =  ctx.query.limit || 50;
+
+      ctx.body = await sps.getAll(limit, page);
     })
     .get('/:id', async (ctx, next) => {
       //get single superpower      

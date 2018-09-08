@@ -13,6 +13,7 @@ module.exports = app => {
     const createBuild = async (entity, action, username, t) => {
         console.log(entity)
         console.log(JSON.stringify(entity.constructor))
+        
         await auditRepo.create({
             entity: entity.constructor.name,
             entityId: entity.id,

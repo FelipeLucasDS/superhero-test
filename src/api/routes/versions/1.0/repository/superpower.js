@@ -1,34 +1,42 @@
 module.exports = app => {
 
-    const SuperPower = app.db.SuperPower;
+    const SuperPowerModel = app.db.SuperPower;
 
-    const getAll = async (limit, order, where) => {
-        return await SuperPower.findAll();
+    const count = async () => {
+        return await SuperPowerModel.count();
+    }
+
+    const getAll = async (limit, offset) => {
+        return await SuperPowerModel.findAll({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            $sort: { id: 1 }
+          });
     }
 
     const getSingle = async (id) => {
-        return await SuperPower.findById(id);
+        return await SuperPowerModel.findById(id);
     }
 
     const getByName = async (name) => {
-        return await  SuperPower.findOne({ where: { name } })
+        return await  SuperPowerModel.findOne({ where: { name } })
     }
 
     const create = async (superpower, transaction) => {
-        return await SuperPower.create(superpower, {transaction});
+        return await SuperPowerModel.create(superpower, {transaction});
     }
 
     const update = async (superpower, transaction ) => {
-        return await SuperPower.findById(superpower.id)
+        return await SuperPowerModel.findById(superpower.id)
         .then((sp)=>{
             return sp.update(superpower, {transaction});
         })
     }
 
     const drop = async (id, transaction) => {
-        return await SuperPower.destroy({ where: {id} }, {transaction})
+        return await SuperPowerModel.destroy({ where: {id} }, {transaction})
     }
     return {
-        getAll, getSingle, create, update, drop, getByName
+        count, getAll, getSingle, create, update, drop, getByName
     };
 };
