@@ -1,10 +1,10 @@
-const SuperPowerRepo = require("../repository/superpower")
-const AuditService = require("./audit");
+const SuperHeroRepo = require("../repository/SuperHero")
+const AuditService = require("./Audit");
 
 module.exports = app => {
 
-    const SuperPower = app.db.SuperPower;
-    const spRepo = SuperPowerRepo(app);
+    const SuperHero = app.db.SuperHero;
+    const spRepo = SuperHeroRepo(app);
     const auditService = AuditService(app);
     const sequelize = app.db.sequelize;
 
@@ -28,9 +28,9 @@ module.exports = app => {
             return spRepo.getSingle(id);
         }
     
-    const create = async (superpower, user)  => {
+    const create = async (SuperHero, user)  => {
         return await sequelize.transaction().then(function (t) {
-                return spRepo.create(superpower, t)
+                return spRepo.create(SuperHero, t)
             .then(function (sp) {
                 return auditService.createBuild(sp, 'CREATE', user.username, t)
             }).then(function (sp) {
@@ -43,9 +43,9 @@ module.exports = app => {
         });
     }
 
-    const update = async (superpower, user) => {
+    const update = async (SuperHero, user) => {
         return await sequelize.transaction().then(function (t) {
-            return spRepo.update(superpower, t)
+            return spRepo.update(SuperHero, t)
             .then(function (sp) {
                 return auditService.createBuild(sp, 'UPDATE', user.username, t)
             }).then(function (sp) {
@@ -65,7 +65,7 @@ module.exports = app => {
                 return auditService.createBuild({
                     id,
                     constructor: {
-                        name: SuperPower.getTableName()
+                        name: SuperHero.getTableName()
                     }
                 }, 'DELETE', user.username, t)
             }).then(function (sp) {

@@ -20,7 +20,7 @@ api(app);
 
 app.use(logger());
 app.use(router(app).routes());
-app.use(adminRouter.routes());
+app.use(adminRouter(app).routes());
 
 app.on('error', errorHandler);
 

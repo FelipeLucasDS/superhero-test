@@ -46,4 +46,4 @@ router.get('/logout', async (ctx) => {
   }
 });
 
-module.exports = router;
+module.exports = app => router;

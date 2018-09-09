@@ -1,4 +1,4 @@
-const AuditRepo = require("../repository/audit")
+const AuditRepo = require("../repository/Audit")
 
 module.exports = app => {
 
@@ -11,9 +11,6 @@ module.exports = app => {
     }
 
     const createBuild = async (entity, action, username, t) => {
-        console.log(entity)
-        console.log(JSON.stringify(entity.constructor))
-        
         await auditRepo.create({
             entity: entity.constructor.name,
             entityId: entity.id,

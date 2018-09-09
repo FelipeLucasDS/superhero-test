@@ -1,7 +1,7 @@
 const router = new (require('koa-router'))();
 const convert = require('koa-convert')
 const jwt = require('koa-jwt');
-const SuperPowerService = require("../services/superpower");
+const SuperPowerService = require("../services/SuperPower");
 
 module.exports = app => {
 
@@ -19,7 +19,7 @@ module.exports = app => {
     })
     .get('/:id', async (ctx, next) => {
       //get single superpower      
-      ctx.body = ctx.req;
+      ctx.body =  await sps.getSingle(ctx.params.id);
     })
     .post('/', async (ctx, next) => {
       //create superpower

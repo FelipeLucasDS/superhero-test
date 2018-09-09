@@ -4,7 +4,7 @@ const routes = new (require('koa-router'))();
 const versionFolder = __dirname+'/versions/';
 const routeFile = '/routes/';
 
-var getAllRoutes = () => {
+var getAllRoutes = (app) => {
     let ver = fs.readdirSync(versionFolder);
     
     console.log('Registering ADMIN api: ')
@@ -15,9 +15,10 @@ var getAllRoutes = () => {
 
             r  = r.replace('.js','');
             
-            const versionRoutes = require("./versions/"+file+routeFile+r);
+
+            const versionRoutes = require("./versions/"+file+routeFile+r)(app);
             
-            const api = '/public/'+file+'/api/'+r;
+            const api = '/public/'+file+'/api/'+r.toLowerCase();
             console.log(api);
 
             routes.use(api, 
@@ -30,4 +31,4 @@ var getAllRoutes = () => {
     return routes
 };
 
-module.exports = getAllRoutes();
+module.exports  = (app) => getAllRoutes(app);
