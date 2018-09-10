@@ -32,6 +32,6 @@ module.exports.generateJWT = payload => {
  * @param {String} encodedPassword Base64 encoded password.
  * @returns {String} `true` if valid, `false` otherwise.
  */
-module.exports.checkPassword = (plainPassword, encodedPassword) => {
-	return bcrypt.compare(plainPassword, encodedPassword);
-};
+module.exports.checkPassword = 
+	async (plainPassword, encodedPassword) => 
+		await bcrypt.compare(plainPassword, encodedPassword);

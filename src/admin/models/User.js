@@ -35,8 +35,8 @@ module.exports = (sequelize, DataType) => {
 		}
 	});
 
-	User.checkPassword = (plainPassword, encodedPassword) => {
-		return bcrypt.checkPassword(plainPassword, encodedPassword);
+	User.checkPassword = async (plainPassword, encodedPassword) => {
+		return await bcrypt.checkPassword(plainPassword, encodedPassword);
 	};
 
 	User.associate = models => {

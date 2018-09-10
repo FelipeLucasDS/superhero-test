@@ -24,13 +24,13 @@ module.exports = app => {
 
   passport.use(new LocalStrategy(options, (username, password, done) => {
     User.findOne({ where: { username } })
-    .then((user) => {
+    .then(async (user) => {
       if (!user) 
         return done(null, false);
       
       user = user.dataValues;
-
-      if (bcrypt.checkPassword(password, user.password)) {
+      const passOK = await bcrypt.checkPassword(password, user.password);
+      if (passOK) {
         user.password = undefined;  
         return done(null, user);
       } else {
