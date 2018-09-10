@@ -1,11 +1,13 @@
 const SuperHeroRepo = require("../repository/SuperHero")
 const AuditService = require("./Audit");
+const ProtectionAreaService = require("./ProtectionArea");
 
 module.exports = app => {
 
     const SuperHero = app.db.SuperHero;
     const spRepo = SuperHeroRepo(app);
     const auditService = AuditService(app);
+    const paService = ProtectionAreaService(app);
     const sequelize = app.db.sequelize;
 
     const getAll = async (limit, page) => {
@@ -25,20 +27,36 @@ module.exports = app => {
     }
     
     const getSingle = async (id) => {
-            return spRepo.getSingle(id);
-        }
+        return spRepo.getSingle(id);
+    }
+
+    const getByName = async (nameid) => {
+        return spRepo.getByName(name);
+    }
     
     const create = async (SuperHero, user)  => {
-        return await sequelize.transaction().then(function (t) {
+
+        const protectionArea = SuperHero.protectionArea;
+        
+        if (!protectionArea) {
+            throw new Exception();//todo
+        }
+
+        return await sequelize.transaction()
+            .then(function (t) {
+                return paService.create(protectionArea, user, t)
+            .then(function (pa) {
+                SuperHero.protectionAreaId = pa.id;
                 return spRepo.create(SuperHero, t)
-            .then(function (sp) {
+            }).then(function (sp) {
                 return auditService.createBuild(sp, 'CREATE', user.username, t)
             }).then(function (sp) {
                 t.commit();
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback();
+                throw err;
             });
         });
     }
@@ -52,8 +70,8 @@ module.exports = app => {
                 t.commit();
                 return sp;
             }).catch(function (err) {
-                console.log(err)
-                return t.rollback();
+                t.rollback(); 
+                throw err;
             });
         });
     }
@@ -72,13 +90,13 @@ module.exports = app => {
                 t.commit();
                 return sp;
             }).catch(function (err) {
-                console.log(err)
-                return t.rollback();
+                t.rollback(); 
+                throw err;
             });
         });
     }
 
     return {
-        getAll, getSingle, create, update, drop
+        getAll, getSingle, create, update, drop, getByName
     };
 };

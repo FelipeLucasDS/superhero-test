@@ -19,6 +19,4 @@ module.exports = app => {
 
 	app.use(helmet());
 	Logger(app);
-
-	app.start();
 };

@@ -28,54 +28,25 @@ module.exports = app => {
             return spRepo.getSingle(id);
         }
     
-    const create = async (ProtectionArea, user)  => {
-        return await sequelize.transaction().then(function (t) {
-                return spRepo.create(ProtectionArea, t)
-            .then(function (sp) {
-                return auditService.createBuild(sp, 'CREATE', user.username, t)
-            }).then(function (sp) {
-                t.commit();
-                return sp;
-            }).catch(function (err) {
-                console.log(err)
-                return t.rollback();
-            });
-        });
+    const create = async (ProtectionArea, user, t)  => {
+        const sp = await spRepo.create(ProtectionArea, t)
+        return await auditService.createBuild(sp, 'CREATE', user.username, t)
     }
 
-    const update = async (ProtectionArea, user) => {
-        return await sequelize.transaction().then(function (t) {
-            return spRepo.update(ProtectionArea, t)
-            .then(function (sp) {
-                return auditService.createBuild(sp, 'UPDATE', user.username, t)
-            }).then(function (sp) {
-                t.commit();
-                return sp;
-            }).catch(function (err) {
-                console.log(err)
-                return t.rollback();
-            });
-        });
+    const update = async (ProtectionArea, user, t) => {
+        const sp = await spRepo.update(ProtectionArea, t);
+        return await auditService.createBuild(sp, 'UPDATE', user.username, t)
     }
 
-    const drop = async (id, user)  => {
-        return await sequelize.transaction().then(function (t) {
-            return spRepo.drop(id, t)
-            .then(function () {
-                return auditService.createBuild({
-                    id,
-                    constructor: {
-                        name: ProtectionArea.getTableName()
-                    }
-                }, 'DELETE', user.username, t)
-            }).then(function (sp) {
-                t.commit();
-                return sp;
-            }).catch(function (err) {
-                console.log(err)
-                return t.rollback();
-            });
-        });
+    const drop = async (id, user, t)  => {
+        await auditService.createBuild({
+            id,
+            constructor: {
+                name: ProtectionArea.getTableName()
+            }
+        }, 'DELETE', user.username, t);
+
+        return await spRepo.drop(id, t);
     }
 
     return {

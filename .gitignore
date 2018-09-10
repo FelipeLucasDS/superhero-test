@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 data
 errors.log
+.nyc*
+docs
 
 # Runtime data
 pids

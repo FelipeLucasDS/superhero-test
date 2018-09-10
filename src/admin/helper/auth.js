@@ -25,6 +25,7 @@ module.exports = app => {
   passport.use(new LocalStrategy(options, (username, password, done) => {
     User.findOne({ where: { username } })
     .then(async (user) => {
+      console.log(user)
       if (!user) 
         return done(null, false);
       

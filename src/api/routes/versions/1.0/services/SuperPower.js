@@ -78,7 +78,12 @@ module.exports = app => {
         });
     }
 
+
+    const getByName = async (nameid) => {
+        return spRepo.getByName(name);
+    }
+
     return {
-        getAll, getSingle, create, update, drop
+        getAll, getSingle, create, update, drop, getByName
     };
 };
