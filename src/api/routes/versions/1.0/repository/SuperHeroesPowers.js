@@ -1,6 +1,5 @@
 module.exports = app => {
 
-    console.log(app.db)
     const SuperHeroPowers = app.db.SuperHeroesPowers;
 
     const getBySuperHero = async (superHeroId) => {

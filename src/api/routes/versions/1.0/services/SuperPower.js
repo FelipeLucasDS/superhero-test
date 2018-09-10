@@ -1,6 +1,7 @@
 const SuperPowerRepo = require("../repository/SuperPower")
 const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const AuditService = require("./Audit");
+const SuperPowerValidator = require("./validator/SuperPower");
 
 module.exports = app => {
 
@@ -8,6 +9,7 @@ module.exports = app => {
     const spRepo = SuperPowerRepo(app);
     const auditService = AuditService(app);
     const superHeroesPowersService = SuperHeroesPowersService(app);
+    const validator = SuperPowerValidator(app, spRepo);
     const sequelize = app.db.sequelize;
 
     const getAll = async (limit, page) => {
@@ -31,6 +33,8 @@ module.exports = app => {
     }
     
     const create = async (SuperPower, user)  => {
+        await validator.create(SuperPower);
+        
         return await sequelize.transaction().then(function (t) {
                 return spRepo.create(SuperPower, t)
             .then(function (sp) {
@@ -46,6 +50,8 @@ module.exports = app => {
     }
 
     const update = async (SuperPower, user) => {
+        await validator.create(SuperPower);
+        
         return await sequelize.transaction().then(function (t) {
             return spRepo.update(SuperPower, t)
             .then(function (sp) {
@@ -61,6 +67,8 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
+        await validator.create(SuperPower);
+        
         return await sequelize.transaction().then(function (t) {
             return spRepo.drop(id, t)
             .then(function () {

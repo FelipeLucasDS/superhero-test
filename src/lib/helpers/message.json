@@ -96,5 +96,49 @@
                 "status": 400 
             }            
         }
+    },
+    "superpower": {
+        "create": {
+            "sucess" : {
+                "msg": "Super poder criado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao criar o Super poder.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super poder já existe.",
+                "status": 400 
+            }            
+        },
+        "delete": {
+            "sucess" : {
+                "msg": "Super poder removido com sucesso.",
+                "status": 202
+            },
+            "error" : {
+                "msg": "Houve um problema ao remover o Super poder.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super poder não existe.",
+                "status": 400 
+            }            
+        },
+        "update": {
+            "sucess" : {
+                "msg": "Super poder atualizado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao atualizar o Super poder.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super poder já existe.",
+                "status": 400 
+            }            
+        }
     }
 }

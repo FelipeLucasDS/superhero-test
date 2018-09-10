@@ -1,22 +1,20 @@
 module.exports = (app, repo) => {
 
-
+    const superHeroNecessary = ['name', 'alias', 'protectionArea'];
     
     const create = async (superHero) => {
-        const superHeroCreationNecessary = ['name', 'alias', 'protectionArea'];
-        const protectionAreaCreationNecessary = ['name', 'lat', 'long', 'radius'];
-
-        const missingInSuperHero = superHeroCreationNecessary
+        const missingInSuperHero = superHeroNecessary
             .filter((key) => {
                 return !Object.keys(superHero).includes(key)
             });
         
         let missingInProtectionArea = []
         if(superHero.protectionArea){
-            missingInProtectionArea = protectionAreaCreationNecessary
-            .filter((key) => 
-                !Object.keys(superHero.protectionArea).includes(key)
-            );
+            missingInProtectionArea = protectionAreaNecessary
+            .filter((key) => !Object.keys(superHero.protectionArea).includes(key))
+            .map(key => "protectionArea."+key);
+
+            missingInProtectionArea.forEach(pa => pa = "protectionArea."+pa);
         }
 
         if(missingInSuperHero.length != 0
@@ -25,7 +23,6 @@ module.exports = (app, repo) => {
                 missingInSuperHero.concat(missingInProtectionArea)
                     .reduce((accum, curr) => accum + ", "+curr ));
         }
-
         const foundSuperHero = await repo.getByName(superHero.name);
         if(foundSuperHero){
             app.errors.createException(app.errors.messages.superhero.create.exists);            
@@ -33,18 +30,17 @@ module.exports = (app, repo) => {
     }
 
     const update = async (superHero) => {
-        const superHeroUpdateNecessary = ['name', 'alias', 'protectionArea'];
-        const protectionAreaUpdateNecessary = ['name', 'lat', 'long', 'radius'];
 
-        const missingInSuperHero = superHeroUpdateNecessary
+        const missingInSuperHero = superHeroNecessary
             .filter((key) => {
                 return !Object.keys(superHero).includes(key)
             });
         
         let missingInProtectionArea = []
         if(superHero.protectionArea){
-            missingInProtectionArea = protectionAreaUpdateNecessary
-            .filter((key) => !Object.keys(superHero.protectionArea).includes(key));
+            missingInProtectionArea = protectionAreaNecessary
+            .filter((key) => !Object.keys(superHero.protectionArea).includes(key))
+            .map(key => "protectionArea."+key);
         }
         
 

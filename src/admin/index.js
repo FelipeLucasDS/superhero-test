@@ -13,7 +13,6 @@ module.exports = app => {
     // Custom 401 handling if you don't want to expose koa-jwt errors to users
     app.use((ctx, next)=>{
         return next().catch((err) => {
-        console.log('here,',err)
         if (err.status == 401) {
             ctx.status = 401;
             ctx.body = 'Protected resource, use Authorization Bearer header to get access\n';
