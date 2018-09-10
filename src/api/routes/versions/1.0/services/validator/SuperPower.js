@@ -1,8 +1,8 @@
 module.exports = (app, repo) => {
 
-    const superPowerNecessary = ['name', 'description'];
+    const superPowerNecessary = ['name', 'description', 'superHeroId'];
     
-    const create = async (superPower) => {
+    const create = async (superPower, superHeroService) => {
         const missingInsuperPower = superPowerNecessary
             .filter((key) => {
                 return !Object.keys(superPower).includes(key)
@@ -19,9 +19,12 @@ module.exports = (app, repo) => {
         if(foundSuperPower){
             app.errors.createException(app.errors.messages.superpower.create.exists);            
         }
+        if(!await superHeroService.getSingle(superPower.superHeroId)){
+            app.errors.createException(app.errors.messages.superpower.create.hero_not_exists);            
+        }
     }
 
-    const update = async (superPower) => {
+    const update = async (superPower, superHeroService) => {
 
         const missingInsuperPower = superPowerNecessary
             .filter((key) => {
@@ -40,12 +43,20 @@ module.exports = (app, repo) => {
         if(foundSuperPower && superPower.id != foundSuperPower.id){
             app.errors.createException(app.errors.messages.superpower.update.exists);            
         }
+
+        if(!await superHeroService.getSingle(superPower.superHeroId)){
+            app.errors.createException(app.errors.messages.superpower.create.hero_not_exists);            
+        }
     }
 
-    const drop = async (id) => {
-        const foundSuperPower = await repo.getByName(superPower.name);
+    const drop = async (id, superHeroService) => {
+        const foundSuperPower = await repo.getSingle(id);
         if(!foundSuperPower){
             app.errors.createException(app.errors.messages.superpower.delete.exists);            
+        }
+        const foundSuperHero = await superHeroService.getSingle(foundSuperPower.superHeroId);
+        if(foundSuperHero){
+            app.errors.createException(app.errors.messages.superpower.delete.hero_exists);            
         }
     }
 

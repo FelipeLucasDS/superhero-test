@@ -1,6 +1,7 @@
 const SuperHeroRepo = require("../repository/SuperHero")
 const AuditService = require("./Audit");
 const ProtectionAreaService = require("./ProtectionArea");
+const SuperPowerService = require("./SuperPower");
 const SuperHeroValidator = require("./validator/SuperHero");
 
 module.exports = app => {
@@ -9,6 +10,7 @@ module.exports = app => {
     const superHeroRepo = SuperHeroRepo(app);
     const auditService = AuditService(app);
     const paService = ProtectionAreaService(app);
+    const superPowerService = SuperPowerService(app);
     const sequelize = app.db.sequelize;
     const validator = SuperHeroValidator(app, superHeroRepo);
     const getAll = async (limit, page) => {
@@ -72,7 +74,7 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await validator.drop(SuperHero);
+        await validator.drop(id);
 
         const transaction = await sequelize.transaction();
         try{

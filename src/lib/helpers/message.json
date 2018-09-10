@@ -110,7 +110,11 @@
             "exists" : {
                 "msg": "Super poder já existe.",
                 "status": 400 
-            }            
+            },       
+            "hero_not_exists" : {
+                "msg": "Super herói não existe.",
+                "status": 400 
+            }          
         },
         "delete": {
             "sucess" : {
@@ -124,7 +128,11 @@
             "exists" : {
                 "msg": "Super poder não existe.",
                 "status": 400 
-            }            
+            },
+            "hero_exists" : {
+                "msg": "Por favor, remova o herói primeiro.",
+                "status": 400 
+            }         
         },
         "update": {
             "sucess" : {
@@ -138,7 +146,11 @@
             "exists" : {
                 "msg": "Super poder já existe.",
                 "status": 400 
-            }            
+            },       
+            "hero_not_exists" : {
+                "msg": "Super herói não existe.",
+                "status": 400 
+            }        
         }
     }
 }

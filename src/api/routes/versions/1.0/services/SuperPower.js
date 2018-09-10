@@ -1,14 +1,14 @@
 const SuperPowerRepo = require("../repository/SuperPower")
-const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const AuditService = require("./Audit");
 const SuperPowerValidator = require("./validator/SuperPower");
+const SuperHeroService = require("./SuperHero");
 
 module.exports = app => {
 
     const SuperPower = app.db.SuperPower;
     const spRepo = SuperPowerRepo(app);
     const auditService = AuditService(app);
-    const superHeroesPowersService = SuperHeroesPowersService(app);
+    const superHeroService = SuperHeroService(app);
     const validator = SuperPowerValidator(app, spRepo);
     const sequelize = app.db.sequelize;
 
@@ -33,7 +33,7 @@ module.exports = app => {
     }
     
     const create = async (SuperPower, user)  => {
-        await validator.create(SuperPower);
+        await validator.create(SuperPower, superHeroService);
         
         return await sequelize.transaction().then(function (t) {
                 return spRepo.create(SuperPower, t)
@@ -50,7 +50,8 @@ module.exports = app => {
     }
 
     const update = async (SuperPower, user) => {
-        await validator.create(SuperPower);
+        console.log(superHeroService);
+        await validator.update(SuperPower, superHeroService);
         
         return await sequelize.transaction().then(function (t) {
             return spRepo.update(SuperPower, t)
@@ -67,7 +68,8 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await validator.create(SuperPower);
+        console.log(superHeroService);
+        await validator.drop(id, superHeroService);
         
         return await sequelize.transaction().then(function (t) {
             return spRepo.drop(id, t)
@@ -96,12 +98,12 @@ module.exports = app => {
     }
 
         
-    const bind = async (SuperHeroPowers, user) => {
+    const dropBySuperHeroId = async (id, user) => {
         const transaction = await sequelize.transaction();
         try{
-            const superHeroPower = await superHeroesPowersService.create(SuperHeroPowers, user, transaction);
+            //const superHeroPower = await superHeroesPowersService.create(SuperHeroPowers, user, transaction);
             await transaction.commit();
-            return superHeroPower;
+            //return superHeroPower;
         }catch(err){
             await transaction.rollback();
             throw err;
@@ -110,6 +112,6 @@ module.exports = app => {
     }
 
     return {
-        getAll, getSingle, create, update, drop, getByName, bind
+        getAll, getSingle, create, update, drop, getByName, dropBySuperHeroId
     };
 };

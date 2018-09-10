@@ -46,6 +46,8 @@ module.exports = app => {
 		}
 	});
 
+	sequelize.sync({force:true});
+
 
 	db.sequelize = sequelize;
 	db.Sequelize = Sequelize;

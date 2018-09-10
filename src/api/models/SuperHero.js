@@ -21,15 +21,6 @@ module.exports = (sequelize, DataType) => {
 	});
 
 	SuperHero.associate = models => {
-		SuperHero.belongsToMany(models.SuperPower, {
-			through: models.SuperHeroesPowers,
-			foreignKey: {
-				name: 'superHeroId',
-				allowNull: false
-			},
-			as: 'superPowers'
-		});
-
 		SuperHero.belongsTo(models.ProtectionArea, {
 			foreignKey: {
 				name: 'protectionAreaId',
