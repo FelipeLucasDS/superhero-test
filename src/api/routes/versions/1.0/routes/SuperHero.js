@@ -20,18 +20,18 @@ module.exports = app => {
       //get single SuperHero      
       ctx.body = ctx.req;
     })
-    .post('/', async (ctx, next) => {
+    .post('/', app.ensureAdmin, async (ctx, next) => {
       //create SuperHero
       ctx.body = await sph.create(ctx.request.body, ctx.req.user);
     })
-    .put('/:id', async (ctx, next) => {
+    .put('/:id', app.ensureAdmin, async (ctx, next) => {
       //update SuperHero
 
       const SuperHero = ctx.request.body;
       SuperHero.id = ctx.params.id;
       ctx.body = await sph.update(SuperHero, ctx.req.user);
     })
-    .del('/:id', async (ctx, next) => {
+    .del('/:id', app.ensureAdmin, async (ctx, next) => {
       //delete SuperHero
 
       ctx.body = await sph.drop(ctx.params.id, ctx.req.user);

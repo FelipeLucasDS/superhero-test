@@ -22,14 +22,14 @@ module.exports = app => {
         return await  ProtectionAreaModel.findOne({ where: { name } })
     }
 
-    const create = async (superpower, transaction) => {
-        return await ProtectionAreaModel.create(superpower, {transaction});
+    const create = async (protectionArea, transaction) => {
+        return await ProtectionAreaModel.create(protectionArea, {transaction});
     }
 
-    const update = async (superpower, transaction ) => {
-        return await ProtectionAreaModel.findById(superpower.id)
+    const update = async (protectionArea, transaction ) => {
+        return await ProtectionAreaModel.findById(protectionArea.id)
         .then((sp)=>{
-            return sp.update(superpower, {transaction});
+            return sp.update(protectionArea, {transaction});
         })
     }
 

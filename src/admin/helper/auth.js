@@ -18,14 +18,15 @@ module.exports = app => {
 
   passport.deserializeUser((user, done) => {
     return User.findById(user.id)
-    .then((user) => { done(null, user); })
-    .catch((err) => { done(err, null); });
+      .then((user) => { 
+          done(null, user); 
+      })
+      .catch((err) => { done(err, null); });
   });
 
   passport.use(new LocalStrategy(options, (username, password, done) => {
     User.findOne({ where: { username } })
     .then(async (user) => {
-      console.log(user)
       if (!user) 
         return done(null, false);
       
@@ -42,4 +43,6 @@ module.exports = app => {
       return done(err); 
     });
   }));
+
+  
 }

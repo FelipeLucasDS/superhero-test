@@ -1,4 +1,5 @@
 const SuperPowerRepo = require("../repository/SuperPower")
+const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const AuditService = require("./Audit");
 
 module.exports = app => {
@@ -6,6 +7,7 @@ module.exports = app => {
     const SuperPower = app.db.SuperPower;
     const spRepo = SuperPowerRepo(app);
     const auditService = AuditService(app);
+    const superHeroesPowersService = SuperHeroesPowersService(app);
     const sequelize = app.db.sequelize;
 
     const getAll = async (limit, page) => {
@@ -25,8 +27,8 @@ module.exports = app => {
     }
     
     const getSingle = async (id) => {
-            return spRepo.getSingle(id);
-        }
+        return spRepo.getSingle(id);
+    }
     
     const create = async (SuperPower, user)  => {
         return await sequelize.transaction().then(function (t) {
@@ -38,7 +40,7 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }
@@ -53,7 +55,7 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }
@@ -73,17 +75,33 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }
 
+    const getByName = async (name) => {
+        if(Array.isArray(name)){
+            return await spRepo.getByNames(name);
+        }
+        return await spRepo.getByName(name);
+    }
 
-    const getByName = async (nameid) => {
-        return spRepo.getByName(name);
+        
+    const bind = async (SuperHeroPowers, user) => {
+        const transaction = await sequelize.transaction();
+        try{
+            const superHeroPower = await superHeroesPowersService.create(SuperHeroPowers, user, transaction);
+            await transaction.commit();
+            return superHeroPower;
+        }catch(err){
+            await transaction.rollback();
+            throw err;
+        }
+         
     }
 
     return {
-        getAll, getSingle, create, update, drop, getByName
+        getAll, getSingle, create, update, drop, getByName, bind
     };
 };

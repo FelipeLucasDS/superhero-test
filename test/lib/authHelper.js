@@ -14,7 +14,6 @@ function loginUser(request, auth) {
 
         function onResponse(err, res) {
             auth.token = res.body.token;
-            console.log('token done '+auth.token)
             return done();
         }
     };

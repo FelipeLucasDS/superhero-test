@@ -21,6 +21,17 @@ module.exports = app => {
         }
         });
     });
+
+    app.ensureAdmin = async (ctx, next) =>{
+        if(ctx.isAuthenticated() 
+            && ctx.req.user.role === 'ADMIN'){
+            await next()
+        }else{
+            const err = new Error();
+            err.status = 401;
+            throw err;
+        }
+    }
     
     // Middleware below this line is only reached if JWT token is valid
     app.use(jwt({ secret: fs.readFileSync(app.config.auth.keyPath) })

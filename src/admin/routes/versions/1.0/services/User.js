@@ -38,7 +38,7 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }
@@ -53,7 +53,7 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }
@@ -73,7 +73,7 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 console.log(err)
-                return t.rollback();
+                t.rollback(); 
             });
         });
     }

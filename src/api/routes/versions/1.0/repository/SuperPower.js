@@ -18,8 +18,12 @@ module.exports = app => {
         return await SuperPowerModel.findById(id);
     }
 
+    const getByNames = async (names) => {
+        return await SuperPowerModel.findAll({ where: { name } })
+    }
+
     const getByName = async (name) => {
-        return await  SuperPowerModel.findOne({ where: { name } })
+        return await SuperPowerModel.findOne({ where: { name } })
     }
 
     const create = async (superpower, transaction) => {
@@ -37,6 +41,6 @@ module.exports = app => {
         return await SuperPowerModel.destroy({ where: {id} }, {transaction})
     }
     return {
-        count, getAll, getSingle, create, update, drop, getByName
+        count, getAll, getSingle, create, update, drop, getByName, getByNames
     };
 };
