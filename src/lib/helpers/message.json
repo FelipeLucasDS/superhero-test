@@ -1,0 +1,100 @@
+{
+    "common": {
+        "error": {
+            "missing_information": {
+                "msg": "As seguintes informações não foram enviadas: $info",
+                "status": 412 
+            },            
+            "msg": "Houve um problema no servidor",
+            "status": 400 
+        }
+    },
+    "user": {
+        "create": {
+            "sucess" : {
+                "msg": "Usuário criado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao criar o usuário.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Usuário já existe.",
+                "status": 400 
+            }            
+        },
+        "delete": {
+            "sucess" : {
+                "msg": "Usuário removido com sucesso.",
+                "status": 202
+            },
+            "error" : {
+                "msg": "Houve um problema ao remover o usuário.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Usuário não existe.",
+                "status": 400 
+            }            
+        },
+        "update": {
+            "sucess" : {
+                "msg": "Usuário atualizado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao atualizar o usuário.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Usuário já existe.",
+                "status": 400 
+            }            
+        }
+    },
+    "superhero": {
+        "create": {
+            "sucess" : {
+                "msg": "Super herói criado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao criar o Super herói.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super herói já existe.",
+                "status": 400 
+            }            
+        },
+        "delete": {
+            "sucess" : {
+                "msg": "Super herói removido com sucesso.",
+                "status": 202
+            },
+            "error" : {
+                "msg": "Houve um problema ao remover o Super herói.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super herói não existe.",
+                "status": 400 
+            }            
+        },
+        "update": {
+            "sucess" : {
+                "msg": "Super herói atualizado com sucesso.",
+                "status": 201 
+            },
+            "error" : {
+                "msg": "Houve um problema ao atualizar o Super herói.",
+                "status": 400 
+            },
+            "exists" : {
+                "msg": "Super herói já existe.",
+                "status": 400 
+            }            
+        }
+    }
+}

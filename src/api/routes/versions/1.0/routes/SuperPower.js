@@ -15,14 +15,17 @@ module.exports = app => {
       let limit =  ctx.query.limit || 50;
 
       ctx.body = await sps.getAll(limit, page);
+      ctx.status = 200;
     })
     .get('/:id', async (ctx, next) => {
       //get single superpower      
       ctx.body =  await sps.getSingle(ctx.params.id);
+      ctx.status = 200;
     })
     .post('/', app.ensureAdmin, async (ctx, next) => {
       //create superpower
       ctx.body = await sps.create(ctx.request.body, ctx.req.user);
+      ctx.status = 200;
     })
     .put('/:id/superhero/:superHeroId', app.ensureAdmin, async (ctx, next) => {
       //create superpower
@@ -33,6 +36,7 @@ module.exports = app => {
       }
 
       ctx.body = await sps.bind(SuperHeroPowers, ctx.req.user);
+      ctx.status = 201;
     })
     .put('/:id', app.ensureAdmin, async (ctx, next) => {
       //update superpower
@@ -40,10 +44,12 @@ module.exports = app => {
       const superPower = ctx.request.body;
       superPower.id = ctx.params.id;
       ctx.body = await sps.update(superPower, ctx.req.user);
+      ctx.status = 200;
     })
     .del('/:id', app.ensureAdmin, async (ctx, next) => {
       //delete superpower
 
       ctx.body = await sps.drop(ctx.params.id, ctx.req.user);
+      ctx.status = 200;
     });
 };

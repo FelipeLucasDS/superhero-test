@@ -15,14 +15,17 @@ module.exports = app => {
       let page = ctx.query.page || 1;      // page number
       let limit =  ctx.query.limit || 50;
       ctx.body = await sph.getAll(limit, page);
+      ctx.status = 200;
     })
     .get('/:id', async (ctx, next) => {
       //get single SuperHero      
       ctx.body = ctx.req;
+      ctx.status = 200;
     })
     .post('/', app.ensureAdmin, async (ctx, next) => {
       //create SuperHero
       ctx.body = await sph.create(ctx.request.body, ctx.req.user);
+      ctx.status = 201;
     })
     .put('/:id', app.ensureAdmin, async (ctx, next) => {
       //update SuperHero
@@ -30,10 +33,12 @@ module.exports = app => {
       const SuperHero = ctx.request.body;
       SuperHero.id = ctx.params.id;
       ctx.body = await sph.update(SuperHero, ctx.req.user);
+      ctx.status = 200;
     })
     .del('/:id', app.ensureAdmin, async (ctx, next) => {
       //delete SuperHero
 
       ctx.body = await sph.drop(ctx.params.id, ctx.req.user);
+      ctx.status = 200;
     });
 };

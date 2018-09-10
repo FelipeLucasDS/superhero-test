@@ -37,8 +37,9 @@ module.exports = app => {
                 sp.password = undefined;
                 return sp;
             }).catch(function (err) {
-                console.log(err)
                 t.rollback(); 
+                console.log('errou?')
+                app.errors.createException(app.errors.create.error);
             });
         });
     }

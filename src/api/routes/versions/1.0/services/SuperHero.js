@@ -1,6 +1,7 @@
 const SuperHeroRepo = require("../repository/SuperHero")
 const AuditService = require("./Audit");
 const ProtectionAreaService = require("./ProtectionArea");
+const SuperHeroValidator = require("./validator/SuperHero");
 
 module.exports = app => {
 
@@ -9,7 +10,7 @@ module.exports = app => {
     const auditService = AuditService(app);
     const paService = ProtectionAreaService(app);
     const sequelize = app.db.sequelize;
-
+    const validator = SuperHeroValidator(app, superHeroRepo);
     const getAll = async (limit, page) => {
         const offset = limit * (page - 1);
        
@@ -30,16 +31,14 @@ module.exports = app => {
         return superHeroRepo.getSingle(id);
     }
 
-    const getByName = async (nameid) => {
+    const getByName = async (name) => {
         return superHeroRepo.getByName(name);
     }
     
     const create = async (SuperHero, user)  => {
-        const transaction = await sequelize.transaction();
+        await validator.create(SuperHero);
 
-        if (!SuperHero.protectionArea) {
-            throw new Exception;//todo
-        }
+        const transaction = await sequelize.transaction();
         try{
             const protectionArea = await paService.create(SuperHero.protectionArea, user, transaction);
             SuperHero.protectionAreaId = protectionArea.id;
@@ -49,11 +48,13 @@ module.exports = app => {
             return superHero;
         }catch(err){
             await transaction.rollback();
-            throw err;
+            app.errors.createException(app.errors.messages.superhero.create.error);
         }
     }
 
     const update = async (SuperHero, user) => {
+        await validator.update(SuperHero);
+
         const transaction = await sequelize.transaction();
         try{
             const superHero = await superHeroRepo.update(SuperHero, transaction);
@@ -71,6 +72,7 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
+        await validator.drop(SuperHero);
 
         const transaction = await sequelize.transaction();
         try{

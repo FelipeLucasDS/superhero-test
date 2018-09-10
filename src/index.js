@@ -10,6 +10,7 @@ const errorHandler = require('./api/middleware/errorHandler');
 const api = require('./api/index');
 const admin = require('./admin/index');
 const Sequelize = require('./api/middleware/sequelize');
+const error = require('./lib/helpers/errorHandling');
 
 app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
@@ -17,7 +18,7 @@ Sequelize(app);
 
 admin(app);
 api(app);
-
+app.errors = error;
 app.use(logger());
 app.use(router(app).routes());
 app.use(adminRouter(app).routes());
