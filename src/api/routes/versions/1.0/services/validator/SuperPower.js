@@ -42,9 +42,16 @@ module.exports = (app, repo) => {
         }
     }
 
-    const drop = async (id) => {
-        const foundSuperPower = await repo.getByName(superPower.name);
+    const drop = async (id, superHeroesPowersService) => {
+        const [foundSuperPower, superHeroPowers] = await Promise.all([ 
+            repo.getSingle(id),
+            superHeroesPowersService.getBySuperPower(id)
+        ]);
         if(!foundSuperPower){
+            app.errors.createException(app.errors.messages.superpower.delete.not_exists);            
+        }
+        
+        if(superHeroPowers){
             app.errors.createException(app.errors.messages.superpower.delete.exists);            
         }
     }

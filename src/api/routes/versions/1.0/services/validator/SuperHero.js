@@ -1,6 +1,7 @@
 module.exports = (app, repo) => {
 
-    const superHeroNecessary = ['name', 'alias', 'protectionArea'];
+    const superHeroNecessary = ['name', 'alias', 'protectionArea', 'superPowers'];
+    const protectionAreaNecessary = ['name', 'lat', 'long', 'radius'];
     
     const create = async (superHero) => {
         const missingInSuperHero = superHeroNecessary
@@ -58,7 +59,7 @@ module.exports = (app, repo) => {
     }
 
     const drop = async (id) => {
-        const foundSuperHero = await repo.getByName(superHero.name);
+        const foundSuperHero = await repo.getSingle(id);
         if(!foundSuperHero){
             app.errors.createException(app.errors.messages.superhero.delete.exists);            
         }

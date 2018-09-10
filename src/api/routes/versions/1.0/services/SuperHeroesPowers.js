@@ -2,8 +2,7 @@ const SuperHeroesPowersRepo = require("../repository/SuperHeroesPowers")
 const AuditService = require("./Audit");
 
 module.exports = app => {
-
-    const SuperHeroPowers = app.db.SuperHeroPowers;
+    const SuperHeroPowers = app.db.SuperHeroesPowers;
     const superHeroPowersRepo = SuperHeroesPowersRepo(app);
     const auditService = AuditService(app);
     const sequelize = app.db.sequelize;

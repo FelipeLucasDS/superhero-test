@@ -121,8 +121,13 @@
                 "msg": "Houve um problema ao remover o Super poder.",
                 "status": 400 
             },
+
             "exists" : {
-                "msg": "Super poder não existe.",
+                "msg": "Super poder está relacionado a algum super herói.",
+                "status": 400 
+            },
+            "not_exists" : {
+                "msg": "Super poder já existe.",
                 "status": 400 
             }            
         },
@@ -134,11 +139,11 @@
             "error" : {
                 "msg": "Houve um problema ao atualizar o Super poder.",
                 "status": 400 
-            },
+            },  
             "exists" : {
-                "msg": "Super poder já existe.",
+                "msg": "Super poder não existe.",
                 "status": 400 
-            }            
+            }          
         }
     }
 }

@@ -11,17 +11,18 @@ module.exports = app => {
     }
 
     const create = async (superHeroPowers, transaction) => {
-        return await SuperHeroPowers.create({
-            superHeroId: superHeroPowers.superHeroId,
-            superPowerId: superHeroPowers.superPowerId
-        }, {transaction});
+        return await SuperHeroPowers.create(superHeroPowers, {transaction});
     }
 
     const drop = async (superHeroPowers, transaction) => {
-        return await SuperHeroPowers.destroy({ where: {
-            superHeroId : superHeroPowers.superHeroId,
-            superPowerId: superHeroPowers.superPowerId
-        }}, {transaction})
+        const where = {};
+        if(superHeroPowers.superHeroId){
+            where.superHeroId = superHeroPowers.superHeroId
+        }
+        if(superHeroPowers.superPowerId){
+            where.superPowerId = superHeroPowers.superPowerId
+        }
+        return await SuperHeroPowers.destroy({ where }, {transaction})
     }
     return {
         getBySuperHero, getBySuperPower, create, drop

@@ -50,7 +50,7 @@ module.exports = app => {
     }
 
     const update = async (SuperPower, user) => {
-        await validator.create(SuperPower);
+        await validator.update(SuperPower);
         
         return await sequelize.transaction().then(function (t) {
             return spRepo.update(SuperPower, t)
@@ -67,7 +67,8 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await validator.create(SuperPower);
+
+        await validator.drop(id, superHeroesPowersService);
         
         return await sequelize.transaction().then(function (t) {
             return spRepo.drop(id, t)
@@ -95,21 +96,7 @@ module.exports = app => {
         return await spRepo.getByName(name);
     }
 
-        
-    const bind = async (SuperHeroPowers, user) => {
-        const transaction = await sequelize.transaction();
-        try{
-            const superHeroPower = await superHeroesPowersService.create(SuperHeroPowers, user, transaction);
-            await transaction.commit();
-            return superHeroPower;
-        }catch(err){
-            await transaction.rollback();
-            throw err;
-        }
-         
-    }
-
     return {
-        getAll, getSingle, create, update, drop, getByName, bind
+        getAll, getSingle, create, update, drop, getByName
     };
 };

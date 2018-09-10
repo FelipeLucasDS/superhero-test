@@ -1,5 +1,6 @@
 const SuperHeroRepo = require("../repository/SuperHero")
 const AuditService = require("./Audit");
+const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const ProtectionAreaService = require("./ProtectionArea");
 const SuperHeroValidator = require("./validator/SuperHero");
 
@@ -9,6 +10,7 @@ module.exports = app => {
     const superHeroRepo = SuperHeroRepo(app);
     const auditService = AuditService(app);
     const paService = ProtectionAreaService(app);
+    const superHeroesPowersService = SuperHeroesPowersService(app);
     const sequelize = app.db.sequelize;
     const validator = SuperHeroValidator(app, superHeroRepo);
     const getAll = async (limit, page) => {
@@ -43,11 +45,20 @@ module.exports = app => {
             const protectionArea = await paService.create(SuperHero.protectionArea, user, transaction);
             SuperHero.protectionAreaId = protectionArea.id;
             const superHero = await superHeroRepo.create(SuperHero, transaction);
-            await auditService.createBuild(superHero, 'CREATE', user.username, transaction);
+            await Promise.all([
+                SuperHero.superPowers.forEach(element => {
+                    superHeroesPowersService.create({
+                        superHeroId: superHero.id,
+                        superPowerId: element
+                    }, user, transaction)
+                }),
+                auditService.createBuild(superHero, 'CREATE', user.username, transaction)
+            ]);
             await transaction.commit();
             return superHero;
         }catch(err){
             await transaction.rollback();
+            console.log(err);
             app.errors.createException(app.errors.messages.superhero.create.error);
         }
     }
@@ -72,13 +83,14 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await validator.drop(SuperHero);
+        await validator.drop(id);
 
         const transaction = await sequelize.transaction();
         try{
             const superHero = await superHeroRepo.getSingle(id);
             
             await Promise.all([
+                superHeroesPowersService.drop({superHeroId : id}, transaction),
                 superHeroRepo.drop(id, transaction),
                 paService.drop(superHero.protectionAreaId, user, transaction),
                 auditService.createBuild({
