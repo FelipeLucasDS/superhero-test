@@ -10,7 +10,10 @@ module.exports = app => {
   const User = app.db.User;
 
   passport.serializeUser((user, done) => { 
-    done(null, user.toJSON()); 
+    if(!user){
+      done(null, false); 
+    }
+    done(null, user); 
   });
 
   passport.deserializeUser((user, done) => {
@@ -28,7 +31,8 @@ module.exports = app => {
       user = user.dataValues;
 
       if (bcrypt.checkPassword(password, user.password)) {
-          return done(null, user);
+        user.password = undefined;  
+        return done(null, user);
       } else {
         return done(null, false);
       }

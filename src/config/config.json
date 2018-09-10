@@ -1,12 +1,7 @@
 {
-	"port": 4440,
-	"defaultItemsPerPage": 10,
+	"port": 3000,
 	"auth": {
-		"saltRounds": 10,
-		"keyPath": "./src/pem/auth-secret.pem",
-		"jwtSession": {
-			"session": false
-		}
+		"keyPath": "./src/pem/auth-secret.pem"
 	},
 	"token": {
 		"expiresIn": "1d"

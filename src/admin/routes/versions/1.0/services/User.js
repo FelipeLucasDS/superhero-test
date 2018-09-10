@@ -31,9 +31,10 @@ module.exports = app => {
         return await sequelize.transaction().then(function (t) {
                 return spRepo.create(User, t)
             .then(function (sp) {
-                return auditService.createBuild(sp, 'CREATE', user.username, t)
+               return auditService.createBuild(sp, 'CREATE', user ? user.username : sp.username, t)
             }).then(function (sp) {
                 t.commit();
+                sp.password = undefined;
                 return sp;
             }).catch(function (err) {
                 console.log(err)

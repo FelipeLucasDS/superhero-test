@@ -25,3 +25,5 @@ app.use(adminRouter(app).routes());
 app.on('error', errorHandler);
 
 http.createServer(app.callback()).listen(process.env.ENV_PORT || 3001);
+
+module.exports = app

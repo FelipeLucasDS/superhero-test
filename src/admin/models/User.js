@@ -26,12 +26,12 @@ module.exports = (sequelize, DataType) => {
 	}, { timestamps: false });
 
 	User.hook('beforeCreate', async user => {
-		user.password = bcrypt.encrypt(user.password);
+		user.password = await bcrypt.encrypt(user.password);
 	});
 
 	User.hook('beforeUpdate', async user => {
 		if (user.password) {
-			user.password = bcrypt.encrypt(user.password);
+			user.password = await bcrypt.encrypt(user.password);
 		}
 	});
 

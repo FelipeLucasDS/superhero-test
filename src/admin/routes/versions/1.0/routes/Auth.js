@@ -24,7 +24,7 @@ const ensureAdmin = (context) => {
   });
 }
 
-router.post('/login', async (ctx) => {
+router.post('/login', async (ctx) => {   
     return passport.authenticate('local', (err, user, info, status) => {
       if (user) {
         ctx.login(user);

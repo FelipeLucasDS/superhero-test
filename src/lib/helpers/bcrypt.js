@@ -6,9 +6,13 @@ const jwt = require('jsonwebtoken');
 const config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 config.token.secret = fs.readFileSync(config.auth.keyPath);
 
-module.exports.encrypt = toEncrypt => {
-	const salt = bcrypt.genSalt(config.auth.saltRounds);
-	return bcrypt.hash(password, salt);
+/**
+ * Generates a encrypted hash.
+ * @param {Object} toEncrypt The password.
+ * @returns {String} Encrypted hash.
+ */
+module.exports.encrypt = async toEncrypt => {
+	return await bcrypt.hash(toEncrypt, 10);
 };
 
 /**
