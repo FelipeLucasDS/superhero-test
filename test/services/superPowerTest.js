@@ -43,6 +43,32 @@ describe('SyperPower', function () {
             })
     });
 
+    it('Create Superpower missing information', function (done) {
+        request
+            .post('/1.0/api/superpower')
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: 'Kamehameha'
+            })
+            .expect(412, done);
+    });
+
+
+    it('Create Superpower that already exists', function (done) {
+        request
+            .post('/1.0/api/superpower')
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: items.SuperPowers[0].name,
+                description: items.SuperPowers[0].description
+            })
+            .expect(400)
+            .then(response => {
+                assert(response.status, 400);
+                done();
+            })
+    });
+
     it('Update Superpowers', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
@@ -57,6 +83,29 @@ describe('SyperPower', function () {
                 name: 'Final Kamehameha',
                 description: 'Final Flash hameha'
             }, done);
+    });
+
+    it('Create Superpower missing information', function (done) {
+        const itemUpdatable = items.SuperPowers[2].dataValues;
+        request
+            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: 'Kamehameha'
+            })
+            .expect(412, done);
+    });
+
+    it('Update Superpower to one that already exists', function (done) {
+        const itemUpdatable = items.SuperPowers[2].dataValues;
+        request
+            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: items.SuperPowers[0].name,
+                description: items.SuperPowers[0].description
+            })
+            .expect(400, done);
     });
 
     it('Delete Superpowers', function (done) {
