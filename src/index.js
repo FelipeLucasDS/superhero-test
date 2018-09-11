@@ -18,7 +18,6 @@ app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 // Custom 401 handling if you don't want to expose koa-jwt errors to users
 app.use((ctx, next) => {
     return next().catch((err) => {
-
         if (err.status == 401 ||
             err.message === 'Authentication Error') {
             ctx.status = 401;

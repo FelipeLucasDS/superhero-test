@@ -8,6 +8,7 @@ const options = {};
 module.exports = app => {
 
   const User = app.db.User;
+  const Role = app.db.Role;
 
   passport.serializeUser((user, done) => { 
     if(!user){
@@ -26,12 +27,16 @@ module.exports = app => {
 
   passport.use(new LocalStrategy(options, (username, password, done) => {
     User.findOne({ where: { username } })
-      .then(async (user) => {
+    .then(async (user) => {
         if (!user) 
           return done(null, false);
         
         user = user.dataValues;
-        const passOK = await bcrypt.checkPassword(password, user.password);
+        const [passOK, role] = await Promise.all([
+            bcrypt.checkPassword(password, user.password),
+            Role.findById(user.role)
+        ]);
+        user.role = role.dataValues
         if (passOK) {
           user.password = undefined;  
           return done(null, user);
@@ -40,7 +45,6 @@ module.exports = app => {
         }
       })
       .catch((err) => { 
-        console.log("passport.use"+err)
         return done(err); 
       });
   }));

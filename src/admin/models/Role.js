@@ -6,7 +6,7 @@ module.exports = (sequelize, DataType) => {
 
 	const role = sequelize.define('Role', {
 		name: {
-			type:   DataType.ENUM,
+			type: DataType.ENUM,
 			values: ['ADMIN', 'STANDARD']
 		}
 	}, { timestamps: false });

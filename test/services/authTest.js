@@ -10,20 +10,17 @@ describe('Koa Basic Auth', function () {
         server.close();
     });
 
-    before(async function () {
-        await testDatabase(app).clearAll()
+    before(function (done) {
+        testDatabase(app).clearAll()
         .then(() =>
-            authHelper.createUserAdmin(app)
-        ).then(()=>{
-            authHelper.loginUser(request, auth)
-            console.log('auth1', auth)
+            testDatabase(app).preCreatedUserAdmin(app)
+        ).then(() => {
+            authHelper.loginUser(request, auth)(done)
         });
-        console.log('auth', auth)
     })
 
     const auth = {};
 
-    
     describe('with no credentials', function () {
         it('should `throw` 401', function (done) {
             request
@@ -56,25 +53,8 @@ describe('Koa Basic Auth', function () {
                 .end((err, res) => {
                     auth.token = res.body.token;
                     should.exist(auth.token);
-                    console.log('auth.token');                    
+                    done();
                 });
-
-            console.log(auth.token)
-
-            request
-                .post('/public/1.0/api/auth/login')
-                .send({
-                    username: 'rama',
-                    password: 'sensei'
-                })
-                .expect(200)
-                .end((err, res) => {
-                    auth.token = res.body.token;
-                    should.exist(auth.token);
-                });
-
-
-            done()
         });
     });
 

@@ -12,7 +12,7 @@ module.exports = app => {
 
     app.ensureAdmin = async (ctx, next) =>{
         if(ctx.isAuthenticated() 
-            && ctx.req.user.role === 'ADMIN'){
+            && ctx.req.user.role.name === 'ADMIN'){
             await next()
         }else{
             const err = new Error();
