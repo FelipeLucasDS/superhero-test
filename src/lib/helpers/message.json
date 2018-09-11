@@ -50,7 +50,11 @@
             "exists" : {
                 "msg": "Usuário já existe.",
                 "status": 400 
-            }            
+            }        ,
+            "not_exists" : {
+                "msg": "Usuário não existe.",
+                "status": 404 
+            }        
         }
     },
     "superhero": {
@@ -94,7 +98,11 @@
             "exists" : {
                 "msg": "Super herói já existe.",
                 "status": 400 
-            }            
+            },
+            "not_exists" : {
+                "msg": "Super herói não existe.",
+                "status": 404 
+            }       
         }
     },
     "superpower": {
@@ -143,7 +151,11 @@
             "exists" : {
                 "msg": "Super poder não existe.",
                 "status": 400 
-            }          
+            },
+            "not_exists" : {
+                "msg": "Super poder não existe.",
+                "status": 404 
+            }           
         }
     }
 }

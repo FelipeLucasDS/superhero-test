@@ -29,7 +29,6 @@ module.exports = app => {
     })
     .put('/:id', app.ensureAdmin, async (ctx, next) => {
       //update SuperHero
-
       const SuperHero = ctx.request.body;
       SuperHero.id = ctx.params.id;
       ctx.body = await sph.update(SuperHero, ctx.req.user);

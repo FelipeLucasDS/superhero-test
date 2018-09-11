@@ -67,10 +67,24 @@ module.exports = app => {
 
         const transaction = await sequelize.transaction();
         try{
+            if(SuperHero.superPowers){
+                await superHeroesPowersService.drop({superHeroId : SuperHero.id}, transaction);
+                
+                await Promise.all([
+                    SuperHero.superPowers.forEach(element => {
+                        superHeroesPowersService.create({
+                            superHeroId: SuperHero.id,
+                            superPowerId: element
+                        }, user, transaction)
+                    })
+                ]);
+            }
+            
             const superHero = await superHeroRepo.update(SuperHero, transaction);
+            
             if(SuperHero.protectionArea){
                 SuperHero.protectionArea.id = superHero.protectionAreaId;
-                const protectionArea = await paService.update(SuperHero.protectionArea, user, transaction);
+                await paService.update(SuperHero.protectionArea, user, transaction);
             }
             await auditService.createBuild(superHero, 'UPDATE', user.username, transaction);
             await transaction.commit();

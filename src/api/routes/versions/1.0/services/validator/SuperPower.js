@@ -23,6 +23,12 @@ module.exports = (app, repo) => {
 
     const update = async (superPower) => {
 
+        const foundSuperPower = await repo.getSingle(superPower.id);
+
+        if(!foundSuperPower){
+            app.errors.createException(app.errors.messages.superpower.update.not_exists);            
+        }
+
         const missingInsuperPower = superPowerNecessary
             .filter((key) => {
                 return !Object.keys(superPower).includes(key)
@@ -34,10 +40,9 @@ module.exports = (app, repo) => {
                 missingInsuperPower
                     .reduce((accum, curr) => accum + ", "+curr ));
         }
+        const foundSuperPowerName = await repo.getByName(superPower.name);
 
-        const foundSuperPower = await repo.getByName(superPower.name);
-
-        if(foundSuperPower && superPower.id != foundSuperPower.id){
+        if(foundSuperPowerName && superPower.id != foundSuperPowerName.dataValues.id){
             app.errors.createException(app.errors.messages.superpower.update.exists);            
         }
     }

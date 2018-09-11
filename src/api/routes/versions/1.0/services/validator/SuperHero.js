@@ -32,7 +32,15 @@ module.exports = (app, repo) => {
 
     const update = async (superHero) => {
 
-        const missingInSuperHero = superHeroNecessary
+        const foundSuperHeroId = await repo.getSingle(superHero.id);
+
+        if(!foundSuperHeroId){
+            app.errors.createException(app.errors.messages.superhero.update.not_exists);            
+        }
+
+        const superHeroUpdateNecessary = ['name', 'alias'];
+
+        const missingInSuperHero = superHeroUpdateNecessary
             .filter((key) => {
                 return !Object.keys(superHero).includes(key)
             });
@@ -52,8 +60,9 @@ module.exports = (app, repo) => {
                     .reduce((accum, curr) => accum + ", "+curr ));
         }
 
-        const foundSuperHero = await repo.getByName(superHero.name);
-        if(foundSuperHero && superHero.id != foundSuperHero.id){
+        const foundSuperHeroName = await repo.getByName(superHero.name);
+
+        if(foundSuperHeroName && superHero.id != foundSuperHeroName.dataValues.id){
             app.errors.createException(app.errors.messages.superhero.update.exists);            
         }
     }

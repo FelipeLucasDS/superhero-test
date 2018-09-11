@@ -108,7 +108,12 @@ describe('SuperPower', function () {
                 name: items.SuperPowers[0].name,
                 description: items.SuperPowers[0].description
             })
-            .expect(400, done);
+            .expect(400)
+            .then(response => {
+                assert(response.status, 400);
+                assert(response.error, 'Super poder já existe.');
+                done();
+            });
     });
 
     it('Update Superpower  - not exists', function (done) {
@@ -119,7 +124,12 @@ describe('SuperPower', function () {
                 name: 'Final Kamehameha',
                 description: 'Final Flash hameha'
             })
-            .expect(400, done);
+            .expect(404)
+            .then(response => {
+                assert(response.status, 404);
+                assert(response.error, 'Super poder não existe.');
+                done();
+            });
     });
 
     it('Delete Superpowers', function (done) {
