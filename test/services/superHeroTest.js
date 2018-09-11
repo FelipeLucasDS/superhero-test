@@ -28,51 +28,95 @@ describe('Super Hero', function () {
 
     it('Create Super Hero', function (done) {
         request
-            .post('/1.0/api/superpower')
+            .post('/1.0/api/superhero')
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
-                name: 'Kamehameha',
-                description: 'Onda Vital'
+                name: "Bruce Wayne",
+                alias: "Batman",
+                protectionArea: {
+                    name:"Gotham",
+                    lat: "1",
+                    long: "3",
+                    radius: 13
+                },
+                superPowers: [items.SuperPowers[0].dataValues.id]
             })
-            .expect(200)
+            .expect(201)
             .then(response => {
-                assert(response.status, 200);
-                assert(response.body.name, 'Kamehameha');
-                assert(response.body.description, 'Onda Vital');
+                assert(response.status, 201);
+                assert.notEqual(response.body.id, null);
+                assert(response.body.name, 'Bruce Wayne');
+                assert(response.body.alias, 'Batman');
+                assert.notEqual(response.body.protectionAreaId, null);
                 done();
             })
     });
 
-    it('Create Superpower- missing information', function (done) {
+     it('Create Superpower- missing information', function (done) {
         request
-            .post('/1.0/api/superpower')
+            .post('/1.0/api/superhero')
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
-                name: 'Kamehameha'
+                name: "Bruce Wayne",
+                protectionArea: {
+                    name:"Gotham",
+                    lat: "1",
+                    long: "3",
+                    radius: 13
+                },
+                superPowers: [items.SuperPowers[0].dataValues.id]
             })
             .expect(412, done);
+    });
+
+    it('Create Superpower- missing protection area information', function (done) {
+        request
+            .post('/1.0/api/superhero')
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: "Bruce Wayne",
+                alias: "Batman",
+                protectionArea: {
+                    name:"Gotham",
+                    radius: 13
+                },
+                superPowers: [items.SuperPowers[0].dataValues.id]
+            })
+            .expect(412)
+            .then(response => {
+                assert(response.error.text, 'As seguintes informações não foram enviadas: protectionArea.lat, protectionArea.long')
+                done();
+            });
     });
 
 
     it('Create Superpower - already exists', function (done) {
         request
-            .post('/1.0/api/superpower')
+            .post('/1.0/api/superhero')
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
-                name: items.SuperPowers[0].name,
-                description: items.SuperPowers[0].description
+                name: items.superHero[0].dataValues.name,
+                alias: "Batman",
+                protectionArea: {
+                    name:"Metrocity",
+                    lat: "1",
+                    long: "3",
+                    radius: 13
+                },
+                superPowers: [items.SuperPowers[0].dataValues.id]
             })
             .expect(400)
             .then(response => {
-                assert(response.status, 400);
+                assert(response.status, 400);;
+                assert(response.error, 'Super herói já existe.');
                 done();
             })
     });
 
-    it('Update Super Hero', function (done) {
+/*    it('Update Super Hero', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/' + itemUpdatable.id)
+            .put('/1.0/api/superhero/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: 'Final Kamehameha',
@@ -88,7 +132,7 @@ describe('Super Hero', function () {
     it('Create Superpower missing information', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/' + itemUpdatable.id)
+            .put('/1.0/api/superhero/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: 'Kamehameha'
@@ -99,7 +143,7 @@ describe('Super Hero', function () {
     it('Update Superpower to one that already exists', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/' + itemUpdatable.id)
+            .put('/1.0/api/superhero/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: items.SuperPowers[0].name,
@@ -110,7 +154,7 @@ describe('Super Hero', function () {
 
     it('Update Superpower  - not exists', function (done) {
         request
-            .put('/1.0/api/superpower/-1')
+            .put('/1.0/api/superhero/-1')
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: 'Final Kamehameha',
@@ -122,14 +166,14 @@ describe('Super Hero', function () {
     it('Delete Super Hero', function (done) {
         const itemDeletable = items.SuperPowers[3].dataValues;
         request
-            .delete('/1.0/api/superpower/' + itemDeletable.id)
+            .delete('/1.0/api/superhero/' + itemDeletable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200, done);
     });
 
     it('Delete Super Hero - Binded to superhero', function (done) {
         request
-            .delete('/1.0/api/superpower/' + items.SuperPowers[0].dataValues.id)
+            .delete('/1.0/api/superhero/' + items.SuperPowers[0].dataValues.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(400, done);
     });
@@ -137,14 +181,14 @@ describe('Super Hero', function () {
 
     it('Delete Super Hero - not exists', function (done) {
         request
-            .delete('/1.0/api/superpower/-1')
+            .delete('/1.0/api/superhero/-1')
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(400, done);
     });
 
     it('Search paginated', function (done) {
         request
-            .get('/1.0/api/superpower?page=1&limit=3')
+            .get('/1.0/api/superhero?page=1&limit=3')
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
@@ -158,7 +202,7 @@ describe('Super Hero', function () {
 
     it('Search paginated less data', function (done) {
         request
-            .get('/1.0/api/superpower?page=2&limit=2')
+            .get('/1.0/api/superhero?page=2&limit=2')
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
@@ -169,4 +213,4 @@ describe('Super Hero', function () {
                 done();
             })
     });
-});
+ */});

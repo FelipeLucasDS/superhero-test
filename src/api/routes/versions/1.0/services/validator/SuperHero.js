@@ -19,7 +19,7 @@ module.exports = (app, repo) => {
         }
 
         if(missingInSuperHero.length != 0
-            || missingInSuperHero.length != 0){
+            || missingInProtectionArea.length != 0){
             app.errors.createException(app.errors.messages.common.error.missing_information,             
                 missingInSuperHero.concat(missingInProtectionArea)
                     .reduce((accum, curr) => accum + ", "+curr ));

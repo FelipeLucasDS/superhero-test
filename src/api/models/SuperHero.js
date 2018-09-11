@@ -22,12 +22,12 @@ module.exports = (sequelize, DataType) => {
 
 	SuperHero.associate = models => {
 		SuperHero.belongsToMany(models.SuperPower, {
-			through: models.SuperHeroesPowers,
-			foreignKey: {
-				name: 'superHeroId',
+			through: {
+				model: models.SuperHeroesPowers,
 				allowNull: false
 			},
-			as: 'superPowers'
+			foreignKey: 'superHeroId',
+			as: 'SuperPowers'
 		});
 
 		SuperHero.belongsTo(models.ProtectionArea, {

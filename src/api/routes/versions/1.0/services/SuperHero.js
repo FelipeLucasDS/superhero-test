@@ -58,7 +58,6 @@ module.exports = app => {
             return superHero;
         }catch(err){
             await transaction.rollback();
-            console.log(err);
             app.errors.createException(app.errors.messages.superhero.create.error);
         }
     }

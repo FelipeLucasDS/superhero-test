@@ -10,6 +10,12 @@ describe('SuperPower', function () {
         server.close();
     });
     const auth = {};
+
+    let defaultItem = {
+        name: 'Kamehameha',
+        description: 'Onda Vital'
+    };
+    
     const items = {};
     before(function (done) {
         testDatabase(app).clearAll()
@@ -30,13 +36,10 @@ describe('SuperPower', function () {
         request
             .post('/1.0/api/superpower')
             .set('Authorization', 'Bearer ' + auth.token)
-            .send({
-                name: 'Kamehameha',
-                description: 'Onda Vital'
-            })
-            .expect(200)
+            .send(defaultItem)
+            .expect(201)
             .then(response => {
-                assert(response.status, 200);
+                assert(response.status, 201);
                 assert(response.body.name, 'Kamehameha');
                 assert(response.body.description, 'Onda Vital');
                 done();

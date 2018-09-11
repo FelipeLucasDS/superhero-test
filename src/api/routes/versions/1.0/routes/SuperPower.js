@@ -25,7 +25,7 @@ module.exports = app => {
     .post('/', app.ensureAdmin, async (ctx, next) => {
       //create superpower
       ctx.body = await sps.create(ctx.request.body, ctx.req.user);
-      ctx.status = 200;
+      ctx.status = 201;
     })
     .put('/:id/superhero/:superHeroId', app.ensureAdmin, async (ctx, next) => {
       //create superpower
@@ -36,7 +36,7 @@ module.exports = app => {
       }
 
       ctx.body = await sps.bind(SuperHeroPowers, ctx.req.user);
-      ctx.status = 201;
+      ctx.status = 200;
     })
     .put('/:id', app.ensureAdmin, async (ctx, next) => {
       //update superpower
