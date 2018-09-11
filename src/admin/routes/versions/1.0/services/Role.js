@@ -1,14 +1,10 @@
-const UserRepo = require("../repository/User")
+const RoleRepo = require("../repository/Role")
 const AuditService = require("./Audit");
-const RoleService = require("./Role");
-const UserValidator = require("./validator/User");
 
 module.exports = app => {
-    const User = app.db.User;
-    const userRepo = UserRepo(app);
+    const Role = app.db.Role;
+    const userRepo = RoleRepo(app);
     const auditService = AuditService(app);
-    const roleService = RoleService(app);
-    const userValidator = UserValidator(app, userRepo);
     const sequelize = app.db.sequelize;
 
     const getAll = async (limit, page) => {
@@ -34,16 +30,18 @@ module.exports = app => {
 
         app.errors.createException(app.errors.messages.common.error.not_found);
     }
+
+    const getByName = async (id) => {
+        const user = await userRepo.getByName(id);
+        if(user)
+            return user;
+
+        app.errors.createException(app.errors.messages.common.error.not_found);
+    }
     
-    const create = async (UserModel, user)  => {
-        await userValidator.create(UserModel);
-
-        const role = await roleService.getByName(UserModel.role);
-        
-        UserModel.role = role.id;
-
+    const create = async (Role, user)  => {
         return await sequelize.transaction().then(function (t) {
-                return userRepo.create(UserModel, t)
+                return userRepo.create(Role, t)
             .then(function (usr) {
                return auditService.createBuild(usr, 'CREATE', user ? user.username : usr.username, t)
             }).then(function (usr) {
@@ -58,15 +56,9 @@ module.exports = app => {
         });
     }
 
-    const update = async (UserModel, user) => {
-        await userValidator.update(UserModel);
-        
-        const role = await roleService.getByName(UserModel.role);
-        
-        UserModel.role = role.id;
-        
+    const update = async (Role, user) => {
         return await sequelize.transaction().then(function (t) {
-            return userRepo.update(UserModel, t)
+            return userRepo.update(Role, t)
             .then(function (usr) {
                 return auditService.createBuild(usr, 'UPDATE', user.username, t)
             }).then(function (usr) {
@@ -80,15 +72,13 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await userValidator.drop(UserModel);
-
         return await sequelize.transaction().then(function (t) {
             return userRepo.drop(id, t)
             .then(function () {
                 return auditService.createBuild({
                     id,
                     constructor: {
-                        name: User.getTableName()
+                        name: Role.getTableName()
                     }
                 }, 'DELETE', user.username, t)
             }).then(function (usr) {
@@ -102,6 +92,6 @@ module.exports = app => {
     }
 
     return {
-        getAll, getSingle, create, update, drop
+        getAll, getSingle, create, update, drop, getByName
     };
 };

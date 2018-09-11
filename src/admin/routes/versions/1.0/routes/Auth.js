@@ -11,8 +11,6 @@ module.exports = app => {
     return passport.authenticate('local', async (err, user, info, status) => {
       if (user) {
         await ctx.login(user);
-
-
         ctx.body = {
           token: bcrypt.generateJWT(user)
         }

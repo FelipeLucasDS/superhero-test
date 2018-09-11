@@ -10,16 +10,20 @@ describe('Koa Basic Auth', function () {
         server.close();
     });
 
+    const items = {user:{}};
+
     before(function (done) {
         testDatabase(app).clearAll()
             .then(() =>
-                testDatabase(app).preCreatedUserAdmin(app)
+                testDatabase(app).preCreatedUserAdmin(items)
+            ).then(() =>
+                testDatabase(app).preCreatedUserStandard(items)
             ).then(() => {
-                authHelper.loginUser(request, auth)(done)
+                authHelper.loginUser(request, items)(done)
             });
     })
 
-    const auth = {};
+
 
     it('with no credentials should `throw` 401', function (done) {
         request
@@ -37,7 +41,7 @@ describe('Koa Basic Auth', function () {
             .expect(401, done);
     });
 
-    it('with valid credentials should call the next middleware', function (done) {
+    it('Login an ADMIN', function (done) {
         request
             .post('/public/1.0/api/auth/login')
             .send({
@@ -46,8 +50,22 @@ describe('Koa Basic Auth', function () {
             })
             .expect(200)
             .end((err, res) => {
-                auth.token = res.body.token;
-                should.exist(auth.token);
+                items.token = res.body.token;
+                should.exist(items.token);
+                done();
+            });
+    });
+
+    it('Login an Standard', function (done) {
+        request
+            .post('/public/1.0/api/auth/login')
+            .send({
+                username: 'one',
+                password: 'kenobi'
+            })
+            .expect(200)
+            .end((err, res) => {
+                should.exist(res.body.token);
                 done();
             });
     });

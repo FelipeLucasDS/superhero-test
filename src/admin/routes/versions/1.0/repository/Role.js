@@ -1,13 +1,13 @@
 module.exports = app => {
 
-    const UserModel = app.db.User;
+    const RoleModel = app.db.Role;
 
     const count = async () => {
-        return await UserModel.count();
+        return await RoleModel.count();
     }
 
     const getAll = async (limit, offset) => {
-        return await UserModel.findAll({
+        return await RoleModel.findAll({
             limit: parseInt(limit),
             offset: parseInt(offset),
             $sort: { id: 1 }
@@ -15,26 +15,26 @@ module.exports = app => {
     }
 
     const getSingle = async (id) => {
-        return await UserModel.findById(id);
+        return await RoleModel.findById(id);
     }
 
-    const getByName = async (username) => {
-        return await  UserModel.findOne({ where: { username } })
+    const getByName = async (name) => {
+        return await  RoleModel.findOne({ where: { name } })
     }
 
     const create = async (superpower, transaction) => {
-        return await UserModel.create(superpower, {transaction});
+        return await RoleModel.create(superpower, {transaction});
     }
 
     const update = async (superpower, transaction ) => {
-        return await UserModel.findById(superpower.id)
+        return await RoleModel.findById(superpower.id)
         .then((sp)=>{
             return sp.update(superpower, {transaction});
         })
     }
 
     const drop = async (id, transaction) => {
-        return await UserModel.destroy({ where: {id} }, {transaction})
+        return await RoleModel.destroy({ where: {id} }, {transaction})
     }
     return {
         count, getAll, getSingle, create, update, drop, getByName

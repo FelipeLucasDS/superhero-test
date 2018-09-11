@@ -9,8 +9,7 @@ module.exports = (app, repo) => {
             });
         
 
-        if(missingInsuperPower.length != 0
-            || missingInsuperPower.length != 0){
+        if(missingInsuperPower.length != 0){
             app.errors.createException(app.errors.messages.common.error.missing_information,             
                 missingInsuperPower
                     .reduce((accum, curr) => accum + ", "+curr ));

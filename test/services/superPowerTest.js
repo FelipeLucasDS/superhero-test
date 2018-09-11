@@ -9,7 +9,7 @@ describe('SuperPower', function () {
     after(function () {
         server.close();
     });
-    const auth = {};
+    const auth = {user:{}};
 
     let defaultItem = {
         name: 'Kamehameha',
@@ -20,7 +20,7 @@ describe('SuperPower', function () {
     before(function (done) {
         testDatabase(app).clearAll()
         .then(() =>
-            testDatabase(app).preCreatedUserAdmin(app)
+            testDatabase(app).preCreatedUserAdmin(auth)
         ).then(() =>
             testDatabase(app).preCreatedSuperPowers(items)
         ).then(() =>
@@ -39,9 +39,9 @@ describe('SuperPower', function () {
             .send(defaultItem)
             .expect(201)
             .then(response => {
-                assert(response.status, 201);
-                assert(response.body.name, 'Kamehameha');
-                assert(response.body.description, 'Onda Vital');
+                assert.deepEqual(response.status, 201);
+                assert.deepEqual(response.body.name, 'Kamehameha');
+                assert.deepEqual(response.body.description, 'Onda Vital');
                 done();
             })
     });
@@ -67,7 +67,7 @@ describe('SuperPower', function () {
             })
             .expect(400)
             .then(response => {
-                assert(response.status, 400);
+                assert.deepEqual(response.status, 400);
                 done();
             })
     });
@@ -110,13 +110,13 @@ describe('SuperPower', function () {
             })
             .expect(400)
             .then(response => {
-                assert(response.status, 400);
-                assert(response.error, 'Super poder já existe.');
+                assert.deepEqual(response.status, 400);
+                assert.deepEqual(response.error.text, 'Super poder já existe.');
                 done();
             });
     });
 
-    it('Update Superpower  - not exists', function (done) {
+    it('Update Superpower - not exists', function (done) {
         request
             .put('/1.0/api/superpower/-1')
             .set('Authorization', 'Bearer ' + auth.token)
@@ -126,8 +126,8 @@ describe('SuperPower', function () {
             })
             .expect(404)
             .then(response => {
-                assert(response.status, 404);
-                assert(response.error, 'Super poder não existe.');
+                assert.deepEqual(response.status, 404);
+                assert.deepEqual(response.error.text, 'Super poder não existe.');
                 done();
             });
     });
@@ -161,10 +161,10 @@ describe('SuperPower', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
-                assert(response.body.data.length, 3);
-                assert(response.body.page.page, 1);
-                assert(response.body.page.pages, 2);
+                assert.deepEqual(response.status, 200);
+                assert.deepEqual(response.body.data.length, 3);
+                assert.deepEqual(response.body.page.page, 1);
+                assert.deepEqual(response.body.page.pages, 2);
                 done();
             })
     });
@@ -175,10 +175,10 @@ describe('SuperPower', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
-                assert(response.body.data.length, 2);
-                assert(response.body.page.page, 2);
-                assert(response.body.page.pages, 3);
+                assert.deepEqual(response.status, 200);
+                assert.deepEqual(response.body.data.length, 2);
+                assert.deepEqual(response.body.page.page, 2);
+                assert.deepEqual(response.body.page.pages, 2);
                 done();
             })
     });
@@ -191,7 +191,7 @@ describe('SuperPower', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
+                assert.deepEqual(response.status, 200);
                 assert.deepEqual(response.body, itemSelectable);
                 done();
             })

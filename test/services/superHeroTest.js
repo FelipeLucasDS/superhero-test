@@ -10,11 +10,11 @@ describe('Super Hero', function () {
         server.close();
     });
     const auth = {};
-    const items = {};
+    const items = {user:{}};
     before(function (done) {
         testDatabase(app).clearAll()
             .then(() =>
-                testDatabase(app).preCreatedUserAdmin(app)
+                testDatabase(app).preCreatedUserAdmin(items)
             ).then(() =>
                 testDatabase(app).preCreatedSuperPowers(items)
             ).then(() =>
@@ -43,10 +43,10 @@ describe('Super Hero', function () {
             })
             .expect(201)
             .then(response => {
-                assert(response.status, 201);
+                assert.deepEqual(response.status, 201);
                 assert.notEqual(response.body.id, null);
-                assert(response.body.name, 'Bruce Wayne');
-                assert(response.body.alias, 'Batman');
+                assert.deepEqual(response.body.name, 'Bruce Wayne');
+                assert.deepEqual(response.body.alias, 'Batman');
                 assert.notEqual(response.body.protectionAreaId, null);
                 done();
             })
@@ -84,7 +84,7 @@ describe('Super Hero', function () {
             })
             .expect(412)
             .then(response => {
-                assert(response.error.text, 'As seguintes informações não foram enviadas: protectionArea.lat, protectionArea.long')
+                assert.deepEqual(response.error.text, 'As seguintes informações não foram enviadas: protectionArea.lat, protectionArea.long')
                 done();
             });
     });
@@ -107,8 +107,8 @@ describe('Super Hero', function () {
             })
             .expect(400)
             .then(response => {
-                assert(response.status, 400);
-                assert(response.error, 'Super herói já existe.');
+                assert.deepEqual(response.status, 400);
+                assert.deepEqual(response.error.text, 'Super herói já existe.');
                 done();
             })
     });
@@ -131,10 +131,10 @@ describe('Super Hero', function () {
             })
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
+                assert.deepEqual(response.status, 200);
                 assert.notEqual(response.body.id, null);
-                assert(response.body.name, 'Bruce');
-                assert(response.body.alias, 'Super Batman');
+                assert.deepEqual(response.body.name, 'Bruce');
+                assert.deepEqual(response.body.alias, 'Super Batman');
                 assert.notEqual(response.body.protectionAreaId, null);
                 done();
             })
@@ -157,8 +157,8 @@ describe('Super Hero', function () {
             })
             .expect(412)
             .then(response => {
-                assert(response.status, 412);
-                assert(response.error.text, 'As seguintes informações não foram enviadas: alias')
+                assert.deepEqual(response.status, 412);
+                assert.deepEqual(response.error.text, 'As seguintes informações não foram enviadas: alias')
                 done();
             })
     });
@@ -179,8 +179,8 @@ describe('Super Hero', function () {
             })
             .expect(412)
             .then(response => {
-                assert(response.status, 412);
-                assert(response.error.text, 'As seguintes informações não foram enviadas: protectionArea.lat, protectionArea.long')
+                assert.deepEqual(response.status, 412);
+                assert.deepEqual(response.error.text, 'As seguintes informações não foram enviadas: protectionArea.lat, protectionArea.long')
                 done();
             })
     });
@@ -204,8 +204,8 @@ describe('Super Hero', function () {
             })
             .expect(400)
             .then(response => {
-                assert(response.status, 400);
-                assert(response.error, 'Super herói já existe.');
+                assert.deepEqual(response.status, 400);
+                assert.deepEqual(response.error.text, 'Super herói já existe.');
                 done();
             })
     });
@@ -228,8 +228,8 @@ describe('Super Hero', function () {
             })
             .expect(404)
             .then(response => {
-                assert(response.status, 404);
-                assert(response.error, 'Super herói não existe.');
+                assert.deepEqual(response.status, 404);
+                assert.deepEqual(response.error.text, 'Super herói não existe.');
                 done();
             })
     });
@@ -255,10 +255,10 @@ describe('Super Hero', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
-                assert(response.body.data.length, 3);
-                assert(response.body.page.page, 1);
-                assert(response.body.page.pages, 2);
+                assert.deepEqual(response.status, 200);
+                assert.deepEqual(response.body.data.length, 3);
+                assert.deepEqual(response.body.page.page, 1);
+                assert.deepEqual(response.body.page.pages, 2);
                 done();
             })
     });
@@ -269,10 +269,10 @@ describe('Super Hero', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
-                assert(response.body.data.length, 2);
-                assert(response.body.page.page, 2);
-                assert(response.body.page.pages, 3);
+                assert.deepEqual(response.status, 200);
+                assert.deepEqual(response.body.data.length, 2);
+                assert.deepEqual(response.body.page.page, 2);
+                assert.deepEqual(response.body.page.pages, 3);
                 done();
             })
     });
@@ -284,15 +284,15 @@ describe('Super Hero', function () {
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
-                assert(response.status, 200);
+                assert.deepEqual(response.status, 200);
 
                 response.body.SuperPowers[0].SuperHeroesPowers = undefined;
                 itemSelectable.SuperPowers[0].SuperHeroesPowers = undefined;
                 
-                assert(response.body.id, itemSelectable.id);
-                assert(response.body.name, itemSelectable.name);
-                assert(response.body.alias, itemSelectable.alias);
-                assert(response.body.protectionAreaId, itemSelectable.protectionAreaId);
+                assert.deepEqual(response.body.id, itemSelectable.id);
+                assert.deepEqual(response.body.name, itemSelectable.name);
+                assert.deepEqual(response.body.alias, itemSelectable.alias);
+                assert.deepEqual(response.body.protectionAreaId, itemSelectable.protectionAreaId);
                 assert.deepEqual(response.body.ProtectionArea, itemSelectable.ProtectionArea.dataValues);
                 assert.deepEqual(response.body.SuperPowers, itemSelectable.SuperPowers);
                 done();

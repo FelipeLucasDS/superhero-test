@@ -132,12 +132,12 @@ module.exports = app => {
     }
 
 
-    const preCreatedUserAdmin = async (app) => {
+    const preCreatedUserAdmin = async (items) => {
         const Admin = await Role.create({
             name: 'ADMIN'
         });
 
-        return await User.create({
+        items.user.admin = await User.create({
             name: 'tobi',
             username: 'rama',
             password: 'sensei',
@@ -145,12 +145,12 @@ module.exports = app => {
         })
     }
 
-    const preCreatedUserStandard = async (request) => {
+    const preCreatedUserStandard = async (items) => {
         const STANDARD = await Role.create({
             name: 'STANDARD'
         });
 
-        return await User.create({
+        items.user.standard = await User.create({
             name: 'Obi',
             username: 'one',
             password: 'kenobi',

@@ -40,7 +40,11 @@
             "exists" : {
                 "msg": "Usuário não existe.",
                 "status": 400 
-            }            
+            },
+            "not_exists" : {
+                "msg": "Usuário já existe.",
+                "status": 400
+            }         
         },
         "update": {
             "sucess" : {
@@ -153,7 +157,7 @@
                 "status": 400 
             },  
             "exists" : {
-                "msg": "Super poder não existe.",
+                "msg": "Super poder já existe.",
                 "status": 400 
             },
             "not_exists" : {
