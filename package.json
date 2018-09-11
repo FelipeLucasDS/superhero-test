@@ -6,7 +6,7 @@
   "engines": {
     "node": "^9.11.2"
   },
-  "scriptgis": {
+  "scripts": {
     "start": "node src/index.js",
     "doc": "jsdoc -c jsdoc.json .",
     "test": "DB_TYPE=sqlite nyc mocha --recursive --reporter list --timeout 100000 --exit",
