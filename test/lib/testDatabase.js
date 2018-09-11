@@ -8,13 +8,39 @@ module.exports = app => {
     const SuperPowers = app.db.SuperPower;
 
     const preCreatedSuperHero = async (items) => {
-        await preDefinedArea(items);
-
-        items.superHero  = await SuperHero.create({
-            name: 'Saitama',
-            alias: 'OnePunch',
-            protectionAreaId: items.area.id
-        });
+        await preDefinedAreas(items);
+        items.superHero  = await Promise.all([
+            SuperHero.create({
+                name: 'Saitama',
+                alias: 'OnePunch',
+                protectionAreaId: items.area[0].dataValues.id
+            }),
+            SuperHero.create({
+                name: 'Gon Freecss',
+                alias: 'Gon',
+                protectionAreaId: items.area[1].dataValues.id
+            }),
+            SuperHero.create({
+                name: 'Killua Zoldyck',
+                alias: 'Killua ',
+                protectionAreaId: items.area[2].dataValues.id
+            }),
+            SuperHero.create({
+                name: 'Leorio Paradinight',
+                alias: 'Leorio',
+                protectionAreaId: items.area[3].dataValues.id
+            }),
+            SuperHero.create({
+                name: 'Goku',
+                alias: 'Goku',
+                protectionAreaId: items.area[4].dataValues.id
+            }),
+            SuperHero.create({
+                name: 'Vegeta',
+                alias: 'Vegeta',
+                protectionAreaId: items.area[5].dataValues.id
+            })
+        ])
     }
 
     const preCreatedSuperPowers = async (items) => {
@@ -38,13 +64,45 @@ module.exports = app => {
         ]);
     }
 
-    const preDefinedArea = async (items) => {
-        items.area =  await ProtectionArea.create({
-            name: 'Namek',
-            lat: 'Farr',
-            long: 'Far',
-            radius: 123
-        });
+    const preDefinedAreas = async (items) => {
+        items.area =  await Promise.all([
+            ProtectionArea.create({
+                name: 'Tatooine',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+            ProtectionArea.create({
+                name: 'Namek',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+            ProtectionArea.create({
+                name: 'Mustafar',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+            ProtectionArea.create({
+                name: 'Endor',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+            ProtectionArea.create({
+                name: 'Jakku',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+            ProtectionArea.create({
+                name: 'Sadala',
+                lat: 'Farr',
+                long: 'Far',
+                radius: 123
+            }),
+        ]);
     }
 
     const createSuperHeroesPowers = async (superHeroId, superPowerId) => {
@@ -107,7 +165,7 @@ module.exports = app => {
         preCreatedSuperHero,
         preCreatedUserAdmin,
         preCreatedSuperPowers,
-        preDefinedArea,
+        preDefinedAreas,
         createSuperHeroesPowers
     }
 }

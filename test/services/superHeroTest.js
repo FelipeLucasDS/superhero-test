@@ -5,7 +5,7 @@ const authHelper = require('../lib/authHelper');
 const testDatabase = require('../lib/testDatabase');
 const assert = require("assert")
 
-describe('SuperPower', function () {
+describe('Super Hero', function () {
     after(function () {
         server.close();
     });
@@ -13,20 +13,20 @@ describe('SuperPower', function () {
     const items = {};
     before(function (done) {
         testDatabase(app).clearAll()
-        .then(() =>
-            testDatabase(app).preCreatedUserAdmin(app)
-        ).then(() =>
-            testDatabase(app).preCreatedSuperPowers(items)
-        ).then(() =>
-            testDatabase(app).preCreatedSuperHero(items)
-        ).then(() =>
-            testDatabase(app).createSuperHeroesPowers(items.superHero[0].dataValues.id, items.SuperPowers[0].dataValues.id)
-        ).then(() => {
-            authHelper.loginUser(request, auth)(done)
-        });
+            .then(() =>
+                testDatabase(app).preCreatedUserAdmin(app)
+            ).then(() =>
+                testDatabase(app).preCreatedSuperPowers(items)
+            ).then(() =>
+                testDatabase(app).preCreatedSuperHero(items)
+            ).then(() =>
+                testDatabase(app).createSuperHeroesPowers(items.superHero[0].dataValues.id, items.SuperPowers[0].dataValues.id)
+            ).then(() => {
+                authHelper.loginUser(request, auth)(done)
+            });
     })
 
-    it('Create Superpowers', function (done) {
+    it('Create Super Hero', function (done) {
         request
             .post('/1.0/api/superpower')
             .set('Authorization', 'Bearer ' + auth.token)
@@ -69,17 +69,17 @@ describe('SuperPower', function () {
             })
     });
 
-    it('Update Superpowers', function (done) {
+    it('Update Super Hero', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .put('/1.0/api/superpower/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: 'Final Kamehameha',
                 description: 'Final Flash hameha'
             })
             .expect(200, {
-                id: itemUpdatable.id, 
+                id: itemUpdatable.id,
                 name: 'Final Kamehameha',
                 description: 'Final Flash hameha'
             }, done);
@@ -88,7 +88,7 @@ describe('SuperPower', function () {
     it('Create Superpower missing information', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .put('/1.0/api/superpower/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: 'Kamehameha'
@@ -99,7 +99,7 @@ describe('SuperPower', function () {
     it('Update Superpower to one that already exists', function (done) {
         const itemUpdatable = items.SuperPowers[2].dataValues;
         request
-            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .put('/1.0/api/superpower/' + itemUpdatable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .send({
                 name: items.SuperPowers[0].name,
@@ -119,23 +119,23 @@ describe('SuperPower', function () {
             .expect(400, done);
     });
 
-    it('Delete Superpowers', function (done) {
+    it('Delete Super Hero', function (done) {
         const itemDeletable = items.SuperPowers[3].dataValues;
         request
-            .delete('/1.0/api/superpower/'+itemDeletable.id)
+            .delete('/1.0/api/superpower/' + itemDeletable.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200, done);
     });
 
-    it('Delete Superpowers - Binded to superhero', function (done) {
+    it('Delete Super Hero - Binded to superhero', function (done) {
         request
-            .delete('/1.0/api/superpower/'+items.SuperPowers[0].dataValues.id)
+            .delete('/1.0/api/superpower/' + items.SuperPowers[0].dataValues.id)
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(400, done);
     });
 
 
-    it('Delete Superpowers - not exists', function (done) {
+    it('Delete Super Hero - not exists', function (done) {
         request
             .delete('/1.0/api/superpower/-1')
             .set('Authorization', 'Bearer ' + auth.token)
