@@ -56,7 +56,7 @@ Just open [http://localhost:3000](http://localhost:3000).
         - koa-router - Map all endpoints
         - koa-session2 - Control token lifecycle, handling user sessions
         
-### Other dependencies dependencies    
+### Other dependencies    
     Other dependencies necessary to create the superheroes microservice:
         - mysqld2 - Middleware to connect to mysql database
         - passport-local - Extension to koa-passport to make easier to handle passport strategy
