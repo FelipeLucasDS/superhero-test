@@ -19,7 +19,7 @@ module.exports = app => {
     })
     .get('/:id', async (ctx, next) => {
       //get single SuperHero      
-      ctx.body = ctx.req;
+      ctx.body = await sph.getSingle(ctx.params.id);
       ctx.status = 200;
     })
     .post('/', app.ensureAdmin, async (ctx, next) => {

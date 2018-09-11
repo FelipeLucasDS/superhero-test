@@ -4,7 +4,11 @@
             "missing_information": {
                 "msg": "As seguintes informações não foram enviadas: $info",
                 "status": 412 
-            },            
+            },                  
+            "not_found": {
+                "msg": "Não encontrado",
+                "status": 404 
+            },         
             "msg": "Houve um problema no servidor",
             "status": 400 
         }
@@ -83,7 +87,7 @@
             },
             "exists" : {
                 "msg": "Super herói não existe.",
-                "status": 400 
+                "status": 404 
             }            
         },
         "update": {
@@ -136,7 +140,7 @@
             },
             "not_exists" : {
                 "msg": "Super poder já existe.",
-                "status": 400 
+                "status": 400
             }            
         },
         "update": {

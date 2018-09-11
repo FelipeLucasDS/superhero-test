@@ -30,8 +30,13 @@ module.exports = app => {
     }
     
     const getSingle = async (id) => {
-        return superHeroRepo.getSingle(id);
-    }
+        const superHero = await superHeroRepo.getSingle(id);
+        if(superHero)
+            return superHero;
+
+        app.errors.createException(app.errors.messages.common.error.not_found);
+
+        }
 
     const getByName = async (name) => {
         return superHeroRepo.getByName(name);
@@ -100,13 +105,13 @@ module.exports = app => {
 
         const transaction = await sequelize.transaction();
         try{
-            const superHero = await superHeroRepo.getSingle(id);
-            
-            await Promise.all([
-                superHeroesPowersService.drop({superHeroId : id}, transaction),
-                superHeroRepo.drop(id, transaction),
-                paService.drop(superHero.protectionAreaId, user, transaction),
-                auditService.createBuild({
+            const [superHero,dropedSuperPowers] = await Promise.all([ 
+                superHeroRepo.getSingle(id),
+                await superHeroesPowersService.drop({superHeroId : id}, transaction)
+            ]);
+             await Promise.all([ 
+                await superHeroRepo.drop(id, transaction),
+                await auditService.createBuild({
                     id,
                     constructor: {
                         name: SuperHero.getTableName()
@@ -115,6 +120,9 @@ module.exports = app => {
             ]);
 
             await transaction.commit();
+
+            await paService.drop(superHero.protectionAreaId, user)         
+
             return superHero;
         }catch(err){
             await transaction.rollback();

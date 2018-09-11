@@ -38,7 +38,6 @@ module.exports = app => {
                 return sp;
             }).catch(function (err) {
                 t.rollback(); 
-                console.log('errou?')
                 app.errors.createException(app.errors.create.error);
             });
         });
