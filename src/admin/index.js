@@ -1,6 +1,6 @@
 const fs = require('fs');
 var jwt = require('koa-jwt');
-const session = require('koa-session');
+const session = require('koa-session2');
 const passport = require('koa-passport');
 const auth = require('./helper/auth');
     

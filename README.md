@@ -1,159 +1,65 @@
-# Express Example
+# Superheroes test
 
-This repository demonstrates the usage of Sequelize within an [Express](https://expressjs.com) application.
-The implemented logic is a simple task tracking tool.
+## Description
+Application test using KOA as base to node, docker to make the environment, supertest to tests and nyv to coverage report.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+## Installing dependencies
+- [Install](https://docs.docker.com/engine/installation/) Docker
+- [Install](https://docs.docker.com/compose/install/) Docker Compose
 
-## Starting App
+**Running aplication with docker**
 
-**Without Migrations**
-
+To build and start the docker-compose server run:
 ```
-npm install
-npm start
-```
-
-**With Migrations**
-
-```
-npm install
-node_modules/.bin/sequelize db:migrate
-npm start
+npm run docker
 ```
 
-This will start the application and create an sqlite database in your app dir.
+To only start docker-compose server run:
+```
+npm run docker:start
+```
+
+To only build the docker-compose server run:
+```
+npm run docker:build
+```
+
+**Running aplication without docker**
+
+This command needs a `npm install` before!
+```
+npm run start
+```
+
+This will start the application and run and mysql database.
 Just open [http://localhost:3000](http://localhost:3000).
 
-## Running Tests
+## Tests
+    The application run in SQlite database and as the server, can be used in docker or not:    
+    `npm run test` or `npm run docker:test`
 
-We have added some [Mocha](https://mochajs.org) based test. You can run them by `npm test`
+## Docs
+    The create documentation the jsdoc library was used, to run:    
+    `npm run doc`
 
+## Dependencies
 
-## Setup in Details
+### Koa dependencies
 
-In order to understand how this application has been built, you can find the
-executed steps in the following snippet. You should be able to adjust those
-steps according to your needs. Please note that the view and the routes aren't
-described. You can find those files in the repo.
-
-#### Express Setup
-
-First we will create a bare Express App using `express-generator` [Express Generator](https://expressjs.com/en/starter/generator.html)
-```bash
-# install express generator globally
-npm install -g express-generator
-
-# create the sample app
-mkdir express-example
-cd express-example
-express -f
-
-# install all node modules
-npm install
-```
-
-#### Sequelize Setup
-
-Now we will install all sequelize related modules.
-
-```bash
-# install ORM , CLI and SQLite dialect
-npm install --save sequelize sequelize-cli sqlite3
-
-# generate models
-node_modules/.bin/sequelize init
-node_modules/.bin/sequelize model:create --name User --attributes username:string
-node_modules/.bin/sequelize model:create --name Task --attributes title:string
-```
-
-We are using `.sequelizerc` setup change config path for migrations. You can read more about this in [migration docs](http://docs.sequelizejs.com/manual/tutorial/migrations.html#the-sequelizerc-file)
-
-```js
-// .sequelizerc
-const path = require('path');
-
-module.exports = {
-  'config': path.resolve('config', 'config.js')
-}
-```
-
-You will now have a basic express application with some additional directories
-(config, models, migrations). Also you will find two migrations and models.
-One for the `User` and one for the `Task`.
-
-In order to associate the models with each other, you need to change the models
-like this:
-
-```js
-// task.js
-// ...
-  Task.associate = function(models) {
-    // Using additional options like CASCADE etc for demonstration
-    // Can also simply do Task.belongsTo(models.User);
-    Task.belongsTo(models.User, {
-      onDelete: "CASCADE",
-      foreignKey: {
-        allowNull: false
-      }
-    });
-  }
-// ...
-```
-
-```js
-// user.js
-// ...
-  User.associate = function(models) {
-    User.hasMany(models.Task);
-  }
-// ...
-```
-
-This association will create an attribute `UserId` in `Task` model. We have to amend our `create-task` migration and add this column.
-
-```js
-// xxxxxxx-create-task.js
-// ...
-  UserId: {
-    type: Sequelize.INTEGER,
-    onDelete: "CASCADE",
-    allowNull: false,
-    references: {
-      model: 'Users',
-      key: 'id'
-    }
-  }
-// ...
-```
-
-If you want to use the automatic table creation that sequelize provides,
-you have to adjust the `bin/www` file to this:
-
-```js
-#!/usr/bin/env node
-
-var app = require('../app');
-var debug = require('debug')('init:server');
-var http = require('http');
-var models = require("../models");
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-var server = http.createServer(app);
-
-// sync() will create all table if they doesn't exist in database
-models.sequelize.sync().then(function () {
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-});
-
-function normalizePort(val) { /* ... */ }
-function onError(error) { /* ... */ }
-function onListening() { /* ... */ }
-```
-
-And finally you have to adjust the `config/config.js` to fit your environment.
-Once thats done, your database configuration is ready!
+    Every KOA dependencies are listed on KOA libraries(https://github.com/koajs), theys are:
+        - @koa/cors - Enable Cors to project
+        - koa-bodyparser - To handle request body
+        - koa-helmet - provides important security headers to make your app more secure by default.
+        - koa-jwt - Enable jwt handling to the requisitions
+        - koa-logger - Control log to every requisition made to the server
+        - koa-passport - Control user passport to the server, handling everything related to login
+        - koa-router - Map all endpoints
+        - koa-session2 - Control token lifecycle, handling user sessions
+        
+### Other dependencies dependencies    
+    Other dependencies necessary to create the superheroes microservice:
+        - mysqld2 - Middleware to connect to mysql database
+        - passport-local - Extension to koa-passport to make easier to handle passport strategy
+        - sequelize - ORM to database
+        - winston - Server-side loggs
+        - bcrypt - Handles every password encryptation.
