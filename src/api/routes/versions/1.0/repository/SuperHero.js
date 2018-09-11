@@ -6,20 +6,26 @@ module.exports = app => {
         return await SuperHeroModel.count();
     }
 
-    const getAll = async (limit, offset) => {
+    const getAll = async (limit, offset, include) => {
         return await SuperHeroModel.findAll({
             limit: parseInt(limit),
             offset: parseInt(offset),
-            $sort: { id: 1 }
+            $sort: { id: 1 },
+            include
           });
     }
 
-    const getSingle = async (id) => {
-        return await SuperHeroModel.findById(id);
+    const getSingle = async (id, include) => {
+        return await SuperHeroModel.findById(id, {
+            include
+        });
     }
 
-    const getByName = async (name) => {
-        return await  SuperHeroModel.findOne({ where: { name } })
+    const getByName = async (name, include) => {
+        return await  SuperHeroModel.findOne({ 
+            include,
+            where: { name } 
+        })
     }
 
     const create = async (superpower, transaction) => {

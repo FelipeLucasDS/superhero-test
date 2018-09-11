@@ -17,7 +17,11 @@ module.exports = app => {
         const offset = limit * (page - 1);
        
         const [data, count] = await Promise.all([
-            await superHeroRepo.getAll(limit, offset),
+            await superHeroRepo.getAll(limit, offset, [
+                {model: app.db.SuperPower,
+                as: 'SuperPowers'}, 
+                {model: app.db.ProtectionArea}
+            ]),
             await superHeroRepo.count()
         ])
 
@@ -30,13 +34,17 @@ module.exports = app => {
     }
     
     const getSingle = async (id) => {
-        const superHero = await superHeroRepo.getSingle(id);
+        const superHero = await superHeroRepo.getSingle(id, [
+            {model: app.db.SuperPower,
+                as: 'SuperPowers'}, 
+            {model: app.db.ProtectionArea}
+        ]);
         if(superHero)
             return superHero;
 
         app.errors.createException(app.errors.messages.common.error.not_found);
 
-        }
+    }
 
     const getByName = async (name) => {
         return superHeroRepo.getByName(name);

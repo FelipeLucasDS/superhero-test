@@ -20,7 +20,7 @@ describe('Super Hero', function () {
             ).then(() =>
                 testDatabase(app).preCreatedSuperHero(items)
             ).then(() =>
-                testDatabase(app).createSuperHeroesPowers(items.superHero[0].dataValues.id, items.SuperPowers[0].dataValues.id)
+                testDatabase(app).createSuperHeroesPowers(items.superHero[0].dataValues, items.SuperPowers[0].dataValues)
             ).then(() => {
                 authHelper.loginUser(request, auth)(done)
             });
@@ -285,7 +285,16 @@ describe('Super Hero', function () {
             .expect(200)
             .then(response => {
                 assert(response.status, 200);
-                assert.deepEqual(response.body, itemSelectable);
+
+                response.body.SuperPowers[0].SuperHeroesPowers = undefined;
+                itemSelectable.SuperPowers[0].SuperHeroesPowers = undefined;
+                
+                assert(response.body.id, itemSelectable.id);
+                assert(response.body.name, itemSelectable.name);
+                assert(response.body.alias, itemSelectable.alias);
+                assert(response.body.protectionAreaId, itemSelectable.protectionAreaId);
+                assert.deepEqual(response.body.ProtectionArea, itemSelectable.ProtectionArea.dataValues);
+                assert.deepEqual(response.body.SuperPowers, itemSelectable.SuperPowers);
                 done();
             })
     });

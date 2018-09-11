@@ -14,31 +14,49 @@ module.exports = app => {
                 name: 'Saitama',
                 alias: 'OnePunch',
                 protectionAreaId: items.area[0].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[0]
+                return sh
             }),
             SuperHero.create({
                 name: 'Gon Freecss',
                 alias: 'Gon',
                 protectionAreaId: items.area[1].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[1]
+                return sh
             }),
             SuperHero.create({
                 name: 'Killua Zoldyck',
                 alias: 'Killua ',
                 protectionAreaId: items.area[2].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[2]
+                return sh
             }),
             SuperHero.create({
                 name: 'Leorio Paradinight',
                 alias: 'Leorio',
                 protectionAreaId: items.area[3].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[3]
+                return sh
             }),
             SuperHero.create({
                 name: 'Goku',
                 alias: 'Goku',
                 protectionAreaId: items.area[4].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[4]
+                return sh
             }),
             SuperHero.create({
                 name: 'Vegeta',
                 alias: 'Vegeta',
                 protectionAreaId: items.area[5].dataValues.id
+            }).then(sh => {
+                sh.dataValues.ProtectionArea = items.area[5]
+                return sh
             })
         ])
     }
@@ -105,10 +123,11 @@ module.exports = app => {
         ]);
     }
 
-    const createSuperHeroesPowers = async (superHeroId, superPowerId) => {
+    const createSuperHeroesPowers = async (superHero, superPower) => {
+        superHero.SuperPowers = [superPower];
         return await SuperHeroesPowers.create({
-            superHeroId,
-            superPowerId
+            superHeroId: superHero.id,
+            superPowerId: superPower.id
         });
     }
 

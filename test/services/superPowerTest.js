@@ -26,7 +26,7 @@ describe('SuperPower', function () {
         ).then(() =>
             testDatabase(app).preCreatedSuperHero(items)
         ).then(() =>
-            testDatabase(app).createSuperHeroesPowers(items.superHero[0].dataValues.id, items.SuperPowers[0].dataValues.id)
+            testDatabase(app).createSuperHeroesPowers(items.superHero[0], items.SuperPowers[0])
         ).then(() => {
             authHelper.loginUser(request, auth)(done)
         });
@@ -181,5 +181,28 @@ describe('SuperPower', function () {
                 assert(response.body.page.pages, 3);
                 done();
             })
+    });
+
+
+    it('Search by id', function (done) {
+        const itemSelectable = items.SuperPowers[0].dataValues;
+        request
+            .get('/1.0/api/superpower/'+itemSelectable.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .expect(200)
+            .then(response => {
+                assert(response.status, 200);
+                assert.deepEqual(response.body, itemSelectable);
+                done();
+            })
+    });
+
+
+    it('Search by id - not found', function (done) {
+        const itemSelectable = items.superHero[0].dataValues;
+        request
+            .get('/1.0/api/superpower/-1')
+            .set('Authorization', 'Bearer ' + auth.token)
+            .expect(404, done)
     });
 });

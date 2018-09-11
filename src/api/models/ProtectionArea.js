@@ -13,13 +13,16 @@ module.exports = (sequelize, DataType) => {
 			unique: true
 		},
 		lat: {
-			type: DataType.FLOAT
+			type: DataType.STRING,
+			allowNull: false
 		},
 		long: {
-			type: DataType.FLOAT
+			type: DataType.STRING,
+			allowNull: false
 		},
 		radius: {
-			type: DataType.INTEGER
+			type: DataType.INTEGER,
+			allowNull: false
 		}
 	}, { timestamps: false });
 

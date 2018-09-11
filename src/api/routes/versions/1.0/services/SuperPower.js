@@ -29,7 +29,11 @@ module.exports = app => {
     }
     
     const getSingle = async (id) => {
-        return spRepo.getSingle(id);
+        const superPower = await spRepo.getSingle(id);
+        if(superPower)
+            return superPower;
+
+        app.errors.createException(app.errors.messages.common.error.not_found);
     }
     
     const create = async (SuperPower, user)  => {
