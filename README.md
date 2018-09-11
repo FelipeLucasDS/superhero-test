@@ -24,6 +24,8 @@ To only build the docker-compose server run:
 npm run docker:build
 ```
 
+Will be opened by [http://localhost:3000](http://localhost:3000).
+
 **Running aplication without docker**
 
 This command needs a `npm install` before!
@@ -31,8 +33,7 @@ This command needs a `npm install` before!
 npm run start
 ```
 
-This will start the application and run and mysql database.
-Just open [http://localhost:3000](http://localhost:3000).
+Will be opened by [http://localhost:3001](http://localhost:3001).
 
 ## Tests
     The application run in SQlite database and as the server, can be used in docker or not:    
