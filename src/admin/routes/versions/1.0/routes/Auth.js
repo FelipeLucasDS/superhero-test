@@ -4,14 +4,15 @@ const fs = require('fs');
 
 const bcrypt = require('../../../../../lib/helpers/bcrypt');
 const User = require('./../../../../models/User');
-router.post('/login', async (ctx) => {   
-    return passport.authenticate('local', (err, user, info, status) => {
+router.post('/login', async (ctx) => {  
+    return passport.authenticate('local', async (err, user, info, status) => {
       if (user) {
-        ctx.login(user);
+        await ctx.login(user);
 
         ctx.body = { token: bcrypt.generateJWT(user) }
+
       } else {
-        ctx.status = 400;
+        ctx.status = 401;
         ctx.body = { err, user, info, status };
       }
     })(ctx);

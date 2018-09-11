@@ -2,20 +2,32 @@ const app = require('../../src/index');
 const server = app.listen();
 const request = require('supertest').agent(server);
 const authHelper = require('../lib/authHelper');
+const testDatabase = require('../lib/testDatabase');
+const should = require('chai').should();
 
 describe('Koa Basic Auth', function () {
     after(function () {
         server.close();
     });
 
+    before(async function () {
+        await testDatabase(app).clearAll()
+        .then(() =>
+            authHelper.createUserAdmin(app)
+        ).then(()=>{
+            authHelper.loginUser(request, auth)
+            console.log('auth1', auth)
+        });
+        console.log('auth', auth)
+    })
+
     const auth = {};
-    before(authHelper.loginUser(request, auth));
 
     
     describe('with no credentials', function () {
         it('should `throw` 401', function (done) {
             request
-                .get('/')
+                .get('/1.0/api/SuperPower')
                 .expect(401, done);
         });
     });
@@ -23,18 +35,46 @@ describe('Koa Basic Auth', function () {
     describe('with invalid credentials', function () {
         it('should `throw` 401', function (done) {
             request
-                .get('/')
-                .auth('user', 'invalid password')
+                .post('/public/1.0/api/auth/login')
+                .send({
+                    username: '111',
+                    password: '222'
+                })
                 .expect(401, done);
         });
     });
 
-    describe('with valid credentials', function () {
+    describe('with valid credentials', function () {        
         it('should call the next middleware', function (done) {
-             request
-                .get('/1.0/api/SuperPower')
-                .set('Authorization', 'bearer ' + auth.token)
-                .expect(200, done)
+            request
+                .post('/public/1.0/api/auth/login')
+                .send({
+                    username: 'rama',
+                    password: 'sensei'
+                })
+                .expect(200)
+                .end((err, res) => {
+                    auth.token = res.body.token;
+                    should.exist(auth.token);
+                    console.log('auth.token');                    
+                });
+
+            console.log(auth.token)
+
+            request
+                .post('/public/1.0/api/auth/login')
+                .send({
+                    username: 'rama',
+                    password: 'sensei'
+                })
+                .expect(200)
+                .end((err, res) => {
+                    auth.token = res.body.token;
+                    should.exist(auth.token);
+                });
+
+
+            done()
         });
     });
 

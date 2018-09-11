@@ -26,22 +26,23 @@ module.exports = app => {
 
   passport.use(new LocalStrategy(options, (username, password, done) => {
     User.findOne({ where: { username } })
-    .then(async (user) => {
-      if (!user) 
-        return done(null, false);
-      
-      user = user.dataValues;
-      const passOK = await bcrypt.checkPassword(password, user.password);
-      if (passOK) {
-        user.password = undefined;  
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    })
-    .catch((err) => { 
-      return done(err); 
-    });
+      .then(async (user) => {
+        if (!user) 
+          return done(null, false);
+        
+        user = user.dataValues;
+        const passOK = await bcrypt.checkPassword(password, user.password);
+        if (passOK) {
+          user.password = undefined;  
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      })
+      .catch((err) => { 
+        console.log("passport.use"+err)
+        return done(err); 
+      });
   }));
 
   

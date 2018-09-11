@@ -4,8 +4,6 @@ var jwt = require('koa-jwt');
 const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
 
-
-
 module.exports = app => {
 	app.use(cors({
 		methods: [ 'GET', 'POST', 'PUT', 'DELETE' ],

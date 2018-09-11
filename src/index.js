@@ -15,8 +15,24 @@ const error = require('./lib/helpers/errorHandling');
 
 app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
+// Custom 401 handling if you don't want to expose koa-jwt errors to users
+app.use((ctx, next) => {
+    return next().catch((err) => {
+
+        if (err.status == 401 ||
+            err.message === 'Authentication Error') {
+            ctx.status = 401;
+            ctx.body = 'Protected resource, use Authorization Bearer header to get access\n';
+        }else if (err.status) {
+            ctx.status = err.status;
+            ctx.body = err.msg;
+        } else {
+            throw err;
+        }
+    });
+});
+
 Sequelize(app);
-Logger(app);
 admin(app);
 api(app);
 app.errors = error;
