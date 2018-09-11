@@ -9,19 +9,22 @@ describe('SyperPower', function () {
     after(function () {
         server.close();
     });
-
+    const auth = {};
+    const items = {};
     before(function (done) {
         testDatabase(app).clearAll()
         .then(() =>
             testDatabase(app).preCreatedUserAdmin(app)
         ).then(() =>
-            testDatabase(app).preCreatedSuperPowers(app)
+            testDatabase(app).preCreatedSuperPowers(items)
+        ).then(() =>
+            testDatabase(app).preCreatedSuperHero(items)
+        ).then(() =>
+            testDatabase(app).createSuperHeroesPowers(items.superHero.dataValues.id, items.SuperPowers[0].dataValues.id)
         ).then(() => {
             authHelper.loginUser(request, auth)(done)
         });
     })
-
-    const auth = {};
 
     it('Create Superpowers', function (done) {
         request
@@ -40,6 +43,39 @@ describe('SyperPower', function () {
             })
     });
 
+    it('Update Superpowers', function (done) {
+        const itemUpdatable = items.SuperPowers[2].dataValues;
+        request
+            .put('/1.0/api/superpower/'+itemUpdatable.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .send({
+                name: 'Final Kamehameha',
+                description: 'Final Flash hameha'
+            })
+            .expect(200, {
+                id: itemUpdatable.id, 
+                name: 'Final Kamehameha',
+                description: 'Final Flash hameha'
+            }, done);
+    });
+
+    it('Delete Superpowers', function (done) {
+        const itemDeletable = items.SuperPowers[3].dataValues;
+        request
+            .delete('/1.0/api/superpower/'+itemDeletable.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .expect(200, done);
+    });
+
+    it('Delete Superpowers - Binded to superhero', function (done) {
+        request
+            .delete('/1.0/api/superpower/'+items.SuperPowers[0].dataValues.id)
+            .set('Authorization', 'Bearer ' + auth.token)
+            .expect(400, done);
+    });
+
+    
+
     it('Search paginated', function (done) {
         request
             .get('/1.0/api/superpower?page=1&limit=3')
@@ -57,13 +93,13 @@ describe('SyperPower', function () {
     it('Search paginated less data', function (done) {
 
         request
-            .get('/1.0/api/superpower?page=1&limit=2')
+            .get('/1.0/api/superpower?page=2&limit=2')
             .set('Authorization', 'Bearer ' + auth.token)
             .expect(200)
             .then(response => {
                 assert(response.status, 200);
                 assert(response.body.data.length, 2);
-                assert(response.body.page.page, 1);
+                assert(response.body.page.page, 2);
                 assert(response.body.page.pages, 3);
                 done();
             })

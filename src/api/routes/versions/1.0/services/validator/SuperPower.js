@@ -50,8 +50,7 @@ module.exports = (app, repo) => {
         if(!foundSuperPower){
             app.errors.createException(app.errors.messages.superpower.delete.not_exists);            
         }
-        
-        if(superHeroPowers){
+        if(superHeroPowers.length !== 0){
             app.errors.createException(app.errors.messages.superpower.delete.exists);            
         }
     }

@@ -7,16 +7,18 @@ module.exports = app => {
     const SuperHeroesPowers = app.db.SuperHeroesPowers;
     const SuperPowers = app.db.SuperPower;
 
-    const preCreatedSuperHero = async (areaId) => {
-        return await SuperHero.create({
+    const preCreatedSuperHero = async (items) => {
+        await preDefinedArea(items);
+
+        items.superHero  = await SuperHero.create({
             name: 'Saitama',
             alias: 'OnePunch',
-            protectionAreaId: areaId
+            protectionAreaId: items.area.id
         });
     }
 
-    const preCreatedSuperPowers = async () => {
-        return await Promise.all([
+    const preCreatedSuperPowers = async (items) => {
+        items.SuperPowers = await Promise.all([
             SuperPowers.create({
                 name: 'Hadouken',
                 description: 'Punho ondulante'
@@ -36,8 +38,8 @@ module.exports = app => {
         ]);
     }
 
-    const preDefinedArea = async () => {
-        return await SuperHero.create({
+    const preDefinedArea = async (items) => {
+        items.area =  await ProtectionArea.create({
             name: 'Namek',
             lat: 'Farr',
             long: 'Far',
@@ -85,13 +87,17 @@ module.exports = app => {
             truncate: true
         };
         await Promise.all([
-            User.destroy(opts),
-            Role.destroy(opts),
             Audit.destroy(opts),
-            ProtectionArea.destroy(opts),
-            SuperHero.destroy(opts),
+            User.destroy(opts),
             SuperHeroesPowers.destroy(opts),
-            SuperPowers.destroy(opts)
+        ]);
+        await Promise.all([
+            Role.destroy(opts),
+            SuperHero.destroy(opts),
+            SuperPowers.destroy(opts),
+        ]);
+        await Promise.all([
+            ProtectionArea.destroy(opts),
         ]);
     }
 
@@ -101,6 +107,7 @@ module.exports = app => {
         preCreatedSuperHero,
         preCreatedUserAdmin,
         preCreatedSuperPowers,
-        preDefinedArea
+        preDefinedArea,
+        createSuperHeroesPowers
     }
 }
