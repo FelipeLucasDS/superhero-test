@@ -6,16 +6,17 @@ const router = require('./api/routes/routes');
 const adminRouter = require('./admin/routes/routes');
 const logger = require('koa-logger')
 
-const errorHandler = require('./api/middleware/errorHandler');
+const errorHandler = require('./lib/middleware/errorHandler');
+const Logger = require('./lib/middleware/logger');
 const api = require('./api/index');
 const admin = require('./admin/index');
-const Sequelize = require('./api/middleware/sequelize');
+const Sequelize = require('./lib/middleware/sequelize');
 const error = require('./lib/helpers/errorHandling');
 
 app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
 Sequelize(app);
-
+Logger(app);
 admin(app);
 api(app);
 app.errors = error;

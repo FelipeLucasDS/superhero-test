@@ -8,7 +8,11 @@ module.exports = app => {
 
 	app.config.db.params.port =  process.env.DB_PORT || app.config.db.params.port;
 	app.config.db.params.host =  process.env.DB_HOST || app.config.db.params.host;
+	console.log(app.config.db.params)
+	console.log(process.env.DB_TYPE)
+	app.config.db.params.dialect =  process.env.DB_TYPE || app.config.db.params.dialect;
 
+	console.log(app.config.db.params.dialect)
 	const sequelize = new Sequelize(
 		process.env.DB_NAME || app.config.db.database,
 		process.env.DB_USER || app.config.db.username,

@@ -4,7 +4,7 @@ var jwt = require('koa-jwt');
 const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
 
-const Logger = require('./middleware/logger');
+
 
 module.exports = app => {
 	app.use(cors({
@@ -17,5 +17,4 @@ module.exports = app => {
 	}));
 
 	app.use(helmet());
-	Logger(app);
 };

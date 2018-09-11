@@ -2,7 +2,7 @@ version: '3'
 
 services:
     mysqlDB:
-      image: mysql:5.6
+      image: mysql:5.7
       restart: always
       ports:
         - "3306:3306"
@@ -28,6 +28,7 @@ services:
       environment:
         - DB_NAME=superheroes
         - DB_USER=root
+        - DB_TYPE=mysql
         - DB_PASSWORD=superheroes
         - DB_HOST=mysqlDB
         - DB_PORT=3306

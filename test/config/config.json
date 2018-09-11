@@ -11,8 +11,8 @@
 		"username": "root",
 		"password": "superheroes",
 		"params": {
-			"port": 3306,
-			"host": "0.0.0.0",
+			"port": null,
+			"host": null,
 			"dialect": "sqlite",
 			"logging": false,
 			"operatorsAliases": false,
