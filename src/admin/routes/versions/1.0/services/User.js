@@ -80,7 +80,7 @@ module.exports = app => {
     }
 
     const drop = async (id, user)  => {
-        await userValidator.drop(UserModel);
+        await userValidator.drop(id);
 
         return await sequelize.transaction().then(function (t) {
             return userRepo.drop(id, t)

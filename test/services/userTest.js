@@ -29,6 +29,57 @@ describe('User', function () {
             .post('/1.0/api/user')
             .set('Authorization', 'Bearer ' + items.token)
             .send({
+                username: "Bee",
+                name: "Eight",
+                password: "123456",
+                role: "ADMIN",
+            })
+            .expect(201)
+            .then(response => {
+                assert.deepEqual(response.status, 201);
+                assert.notEqual(response.body.id, null);
+                assert.deepEqual(response.body.username, "Bee");
+                assert.deepEqual(response.body.name, "Eight" );
+                done();
+            })
+    });
+
+    it('create - Error role', function (done) {
+        request
+            .post('/1.0/api/user')
+            .set('Authorization', 'Bearer ' + items.token)
+            .send({
+                username: "qqqq",
+                name: "qqqq",
+                password: "qqqq",
+                role: "qqqq",
+            })
+            .expect(404, done)
+    });
+
+    it('create - same name', function (done) {
+        request
+            .post('/1.0/api/user')
+            .set('Authorization', 'Bearer ' + items.token)
+            .send({
+                username: items.user.admin.dataValues.username,
+                name: "Boruto Uzumaku",
+                password: "123456",
+                role: "STANDARD",
+            })
+            .expect(400)
+            .then(response => {
+                assert.deepEqual(response.status, 400);
+                assert.deepEqual(response.error.text, 'Usuário já existe.');
+                done();
+            })
+    });
+
+    it('create an ADMIN', function (done) {
+        request
+            .post('/1.0/api/user')
+            .set('Authorization', 'Bearer ' + items.token)
+            .send({
                 username: "naruto",
                 name: "Naruto Uzumaku",
                 password: "123456",
@@ -40,26 +91,6 @@ describe('User', function () {
                 assert.notEqual(response.body.id, null);
                 assert.deepEqual(response.body.username, "naruto");
                 assert.deepEqual(response.body.name, "Naruto Uzumaku" );
-                done();
-            })
-    });
-
-    it('create an STANDARD', function (done) {
-        request
-            .post('/1.0/api/user')
-            .set('Authorization', 'Bearer ' + items.token)
-            .send({
-                username: "Boruto",
-                name: "Boruto Uzumaku",
-                password: "123456",
-                role: "STANDARD",
-            })
-            .expect(201)
-            .then(response => {
-                assert.deepEqual(response.status, 201);
-                assert.notEqual(response.body.id, null);
-                assert.deepEqual(response.body.username, "Boruto");
-                assert.deepEqual(response.body.name, "Boruto Uzumaku" );
                 done();
             })
     });
@@ -81,6 +112,31 @@ describe('User', function () {
                 assert.deepEqual(response.body.name, "Vader" );
                 done();
             })
+    });
+
+    it('create - same name', function (done) {
+        request
+            .put('/1.0/api/user/'+items.user.standard.dataValues.id)
+            .set('Authorization', 'Bearer ' + items.token)
+            .send({
+                username: items.user.admin.dataValues.username,
+                name: "Boruto Uzumaku",
+                password: "123456",
+                role: "STANDARD",
+            })
+            .expect(400)
+            .then(response => {
+                assert.deepEqual(response.status, 400);
+                assert.deepEqual(response.error.text, 'Usuário já existe.');
+                done();
+            })
+    });
+
+    it('Update - not found', function (done) {
+        request
+            .put('/1.0/api/user/-1')
+            .set('Authorization', 'Bearer ' + items.token)
+            .expect(404, done)
     });
 
     it('Search by id', function (done) {
@@ -130,6 +186,22 @@ describe('User', function () {
                 assert.deepEqual(response.body.page.pages, 2);
                 done();
             })
+    });
+
+
+    it('Delete', function (done) {
+        const itemDeletable = items.user.standard.dataValues;
+        request
+            .delete('/1.0/api/user/'+itemDeletable.id)
+            .set('Authorization', 'Bearer ' + items.token)
+            .expect(200, done);
+    });
+
+    it('Delete - not exists', function (done) {
+        request
+            .delete('/1.0/api/user/-1')
+            .set('Authorization', 'Bearer ' + items.token)
+            .expect(400, done);
     });
 
 });

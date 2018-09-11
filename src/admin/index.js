@@ -22,19 +22,7 @@ module.exports = app => {
             throw err;
         }
     }
-
-    app.ensureLogged = async (ctx, next) =>{
-       
-        if(ctx.isAuthenticated()){
-            await next()
-        }else{
-            const err = new Error();
-            err.status = 401;
-            err.message = 'Unauthorized';
-            throw err;
-        }
-    }
-    
+   
     // Middleware below this line is only reached if JWT token is valid
     app.use(jwt({ secret: fs.readFileSync(app.config.auth.keyPath) })
         .unless({ path: [/^\/public/] }));
