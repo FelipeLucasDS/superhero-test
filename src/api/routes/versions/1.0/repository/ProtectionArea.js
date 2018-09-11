@@ -2,22 +2,6 @@ module.exports = app => {
 
     const ProtectionAreaModel = app.db.ProtectionArea;
 
-    const count = async () => {
-        return await ProtectionAreaModel.count();
-    }
-
-    const getAll = async (limit, offset) => {
-        return await ProtectionAreaModel.findAll({
-            limit: parseInt(limit),
-            offset: parseInt(offset),
-            $sort: { id: 1 }
-          });
-    }
-
-    const getSingle = async (id) => {
-        return await ProtectionAreaModel.findById(id);
-    }
-
     const getByName = async (name) => {
         return await  ProtectionAreaModel.findOne({ where: { name } })
     }
@@ -37,6 +21,6 @@ module.exports = app => {
         return await ProtectionAreaModel.destroy({ where: {id} }, {transaction})
     }
     return {
-        count, getAll, getSingle, create, update, drop, getByName
+        create, update, drop, getByName
     };
 };

@@ -6,10 +6,6 @@ module.exports = app => {
     const auditRepo = AuditRepo(app);
     const sequelize = app.db.sequelize;
 
-    const create = async (audit, t)  => {
-        return await auditRepo.create(audit, t);
-    }
-
     const createBuild = async (entity, action, username, t) => {
         await auditRepo.create({
             entity: entity.constructor.name,
@@ -21,7 +17,6 @@ module.exports = app => {
     }
 
     return {
-        create,
         createBuild
     };
 };

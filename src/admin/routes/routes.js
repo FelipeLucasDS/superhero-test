@@ -18,7 +18,9 @@ var getAllRoutes = (app) => {
 
             const versionRoutes = require("./versions/"+file+routeFile+r)(app);
             
-            const api = '/public/'+file+'/api/'+r.toLowerCase();
+            let api = '/'+file+'/api/'+r.toLowerCase();
+            if(r.toLowerCase() === 'auth')
+                api = '/public'+api;
             console.log(api);
 
             routes.use(api, 

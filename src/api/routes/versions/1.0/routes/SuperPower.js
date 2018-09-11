@@ -34,7 +34,6 @@ module.exports = app => {
         superHeroId: ctx.params.superHeroId,
         superPowerId: ctx.params.id
       }
-
       ctx.body = await sps.bind(SuperHeroPowers, ctx.req.user);
       ctx.status = 200;
     })

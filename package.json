@@ -21,7 +21,6 @@
   "license": "IS  C",
   "dependencies": {
     "@koa/cors": "^2.2.2",
-    "assert": "^1.4.1",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.1",
     "install": "^0.12.1",
@@ -33,21 +32,18 @@
     "koa-passport": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.9.0",
+    "koa-session2": "^2.2.8",
     "mysql2": "^1.6.1",
-    "nodemon": "^1.18.3",
-    "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "sequelize": "^4.38.0",
-    "sequelize-cli": "^4.1.1",
-    "sinon": "^6.2.0",
-    "sqlite3": "^4.0.2",
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "sequelize-cli": "^4.1.1",
+    "assert": "^1.4.1",
+    "sqlite3": "^4.0.2",
     "supertest": "^3.3.0",
     "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
-    "chai-http": "^4.0.0",
     "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",
     "nyc": "^13.0.1"

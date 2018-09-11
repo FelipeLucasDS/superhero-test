@@ -8,26 +8,6 @@ module.exports = app => {
     const auditService = AuditService(app);
     const sequelize = app.db.sequelize;
 
-    const getAll = async (limit, page) => {
-        const offset = limit * (page - 1);
-       
-        const [data, count] = await Promise.all([
-            await spRepo.getAll(limit, offset),
-            await spRepo.count()
-        ])
-
-        const pages = Math.ceil(count / limit);
-
-        return {
-            data,
-            page: {page, pages}
-        };
-    }
-    
-    const getSingle = async (id) => {
-            return spRepo.getSingle(id);
-        }
-    
     const create = async (ProtectionArea, user, t)  => {
         const sp = await spRepo.create(ProtectionArea, t)
         return await auditService.createBuild(sp, 'CREATE', user.username, t)
@@ -50,6 +30,6 @@ module.exports = app => {
     }
 
     return {
-        getAll, getSingle, create, update, drop
+        create, update, drop
     };
 };
