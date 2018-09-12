@@ -3,6 +3,10 @@ const AuditService = require("./Audit");
 const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const ProtectionAreaService = require("./ProtectionArea");
 const SuperHeroValidator = require("./validator/SuperHero");
+/**
+ * Provides SuperHero services
+ * @module src/api/routes/versions/1.0/services/SuperHero
+ */
 
 module.exports = app => {
 

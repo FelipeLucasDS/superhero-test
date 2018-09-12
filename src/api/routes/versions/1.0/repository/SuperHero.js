@@ -1,3 +1,7 @@
+/**
+ * Provides SuperHero repositories
+ * @module src/api/routes/versions/1.0/repository/SuperHero
+ */
 module.exports = app => {
 
     const SuperHeroModel = app.db.SuperHero;

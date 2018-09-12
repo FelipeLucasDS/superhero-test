@@ -1,4 +1,8 @@
 const AuditRepo = require("../repository/Audit")
+/**
+ * Provides Audit services
+ * @module src/api/routes/versions/1.0/services/SuperPower
+ */
 
 module.exports = app => {
 

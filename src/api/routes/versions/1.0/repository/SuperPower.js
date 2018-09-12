@@ -1,3 +1,7 @@
+/**
+ * Provides SuperPower repositories
+ * @module src/api/routes/versions/1.0/repository/SuperPower
+ */
 module.exports = app => {
 
     const SuperPowerModel = app.db.SuperPower;

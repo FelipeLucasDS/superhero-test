@@ -1,6 +1,9 @@
 const ProtectionAreaRepo = require("../repository/ProtectionArea")
 const AuditService = require("./Audit");
-
+/**
+ * Provides ProtectionArea services
+ * @module src/api/routes/versions/1.0/services/ProtectionArea
+ */
 module.exports = app => {
 
     const ProtectionArea = app.db.ProtectionArea;

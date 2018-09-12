@@ -1,3 +1,8 @@
+/**
+ * Provides SuperPower Validations
+ * @module src/api/routes/versions/1.0/services/validator/SuperPower
+ */
+
 module.exports = (app, repo) => {
 
     const superPowerNecessary = ['name', 'description'];

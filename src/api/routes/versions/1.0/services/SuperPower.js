@@ -3,6 +3,10 @@ const SuperHeroesPowersService = require("../services/SuperHeroesPowers")
 const AuditService = require("./Audit");
 const SuperPowerValidator = require("./validator/SuperPower");
 
+/**
+ * Provides SuperPower services
+ * @module src/api/routes/versions/1.0/services/SuperPower
+ */
 module.exports = app => {
 
     const SuperPower = app.db.SuperPower;
@@ -47,8 +51,8 @@ module.exports = app => {
                 t.commit();
                 return sp;
             }).catch(function (err) {
-                console.log(err)
-                t.rollback(); 
+                t.rollback();  
+                throw err;
             });
         });
     }
@@ -64,8 +68,8 @@ module.exports = app => {
                 t.commit();
                 return sp;
             }).catch(function (err) {
-                console.log(err)
                 t.rollback(); 
+                throw err;
             });
         });
     }
@@ -87,8 +91,8 @@ module.exports = app => {
                 t.commit();
                 return sp;
             }).catch(function (err) {
-                console.log(err)
-                t.rollback(); 
+                t.rollback();  
+                throw err;
             });
         });
     }

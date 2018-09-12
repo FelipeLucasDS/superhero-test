@@ -3,11 +3,21 @@ const convert = require('koa-convert')
 const jwt = require('koa-jwt');
 const SuperPowerService = require("../services/SuperPower");
 
+/**
+ * Provides Superpowers endpoints
+ * @module src/api/routes/versions/1.0/routes/SuperPower
+ */
+
 module.exports = app => {
 
   const sps = SuperPowerService(app);
 
 
+  /**
+   * Search by paginated superpowers.
+   * @param {String} ctx.query.page Page requested.
+   * @param {String} ctx.query.limit Limit per page.
+   */
   router.get('/', async (ctx, next) => {
     //get all superpowers paginated
     const user = ctx.req.user;
@@ -17,26 +27,32 @@ module.exports = app => {
     ctx.body = await sps.getAll(limit, page);
     ctx.status = 200;
   })
+
+  /**
+   * Search by a specific superpower.
+   * @param {String} ctx.params.id Superhero requested.
+   */
   router.get('/:id', async (ctx, next) => {
     //get single superpower      
     ctx.body = await sps.getSingle(ctx.params.id);
     ctx.status = 200;
   })
+
+  /**
+   * Create a superpower, needs to be an admin.
+   * @param {String} ctx.request.body Superhero to create.
+   */
   router.post('/', app.ensureAdmin, async (ctx, next) => {
     //create superpower
     ctx.body = await sps.create(ctx.request.body, ctx.req.user);
     ctx.status = 201;
   })
-  router.put('/:id/superhero/:superHeroId', app.ensureAdmin, async (ctx, next) => {
-    //create superpower
 
-    const SuperHeroPowers = {
-      superHeroId: ctx.params.superHeroId,
-      superPowerId: ctx.params.id
-    }
-    ctx.body = await sps.bind(SuperHeroPowers, ctx.req.user);
-    ctx.status = 200;
-  })
+  /**
+   * Update a superpower, needs to be an admin.
+   * @param {String} ctx.request.body Superhero to update.
+   * @param {String} ctx.params.id Superhero requested.
+   */
   router.put('/:id', app.ensureAdmin, async (ctx, next) => {
     //update superpower
 
@@ -45,6 +61,11 @@ module.exports = app => {
     ctx.body = await sps.update(superPower, ctx.req.user);
     ctx.status = 200;
   })
+
+  /**
+   * Delete a superpower, needs to be an admin.
+   * @param {String} ctx.params.id Superhero to delete.
+   */
   router.del('/:id', app.ensureAdmin, async (ctx, next) => {
     //delete superpower
 

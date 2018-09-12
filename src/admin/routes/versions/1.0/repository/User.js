@@ -1,3 +1,8 @@
+/**
+ * Provides User repositories
+ * @module src/admin/routes/versions/1.0/repository/User
+ */
+
 module.exports = app => {
 
     const UserModel = app.db.User;

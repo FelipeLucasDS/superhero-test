@@ -1,3 +1,8 @@
+
+/**
+ * Provides User validations
+ * @module src/admin/routes/versions/1.0/services/validator/User
+ */
 module.exports = (app, repo) => {
 
     const userNecessary = ['name', 'username', 'password', 'role'];

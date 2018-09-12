@@ -1,3 +1,7 @@
+/**
+ * Provides Superhero Validations
+ * @module src/api/routes/versions/1.0/services/validator/Superhero
+ */
 module.exports = (app, repo) => {
 
     const superHeroNecessary = ['name', 'alias', 'protectionArea', 'superPowers'];

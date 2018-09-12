@@ -4,7 +4,12 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename  = path.basename(__filename);
 
-module.exports = app => {
+/**
+ * Provides every sequelize integration
+ * @module lib/helpers/sequelize
+ */
+
+ module.exports = app => {
 
 	app.config.db.params.port =  process.env.DB_PORT || app.config.db.params.port;
 	app.config.db.params.host =  process.env.DB_HOST || app.config.db.params.host;

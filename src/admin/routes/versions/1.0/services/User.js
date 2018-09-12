@@ -3,6 +3,10 @@ const AuditService = require("./Audit");
 const RoleService = require("./Role");
 const UserValidator = require("./validator/User");
 
+/**
+ * Provides User services
+ * @module src/admin/routes/versions/1.0/services/User
+ */
 module.exports = app => {
     const User = app.db.User;
     const userRepo = UserRepo(app);
@@ -51,9 +55,8 @@ module.exports = app => {
                 usr.password = undefined;
                 return usr;
             }).catch(function (err) {
-                console.log(err)
-                t.rollback(); 
-                app.errors.createException(app.errors.create.error);
+                t.rollback();  
+                throw err;
             });
         });
     }
@@ -73,8 +76,8 @@ module.exports = app => {
                 t.commit();
                 return usr;
             }).catch(function (err) {
-                console.log(err)
-                t.rollback(); 
+                t.rollback();  
+                throw err;
             });
         });
     }
@@ -95,8 +98,8 @@ module.exports = app => {
                 t.commit();
                 return usr;
             }).catch(function (err) {
-                console.log(err)
-                t.rollback(); 
+                t.rollback();  
+                throw err;
             });
         });
     }

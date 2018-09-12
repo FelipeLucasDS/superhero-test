@@ -1,3 +1,8 @@
+/**
+ * Provides ProtectionArea repositories
+ * @module src/api/routes/versions/1.0/repository/ProtectionArea
+ */
+
 module.exports = app => {
 
     const ProtectionAreaModel = app.db.ProtectionArea;

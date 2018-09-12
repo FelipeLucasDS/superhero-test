@@ -1,6 +1,6 @@
 {
 	"plugins": [ "plugins/markdown" ],
-	"recurseDepth": 10,
+	"recurseDepth": 20,
 	"source": {
 		"includePattern": ".+\\.js(doc|x)?$",
 		"excludePattern": "(^|\\/|\\\\)_",

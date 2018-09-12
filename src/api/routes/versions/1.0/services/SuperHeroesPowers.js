@@ -1,6 +1,10 @@
 const SuperHeroesPowersRepo = require("../repository/SuperHeroesPowers")
 const AuditService = require("./Audit");
 
+/**
+ * Provides SuperHeroesPowers services
+ * @module src/api/routes/versions/1.0/services/SuperHeroesPowers
+ */
 module.exports = app => {
     const SuperHeroPowers = app.db.SuperHeroesPowers;
     const superHeroPowersRepo = SuperHeroesPowersRepo(app);

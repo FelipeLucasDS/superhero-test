@@ -1,5 +1,9 @@
 const AuditRepo = require("../repository/Audit")
 
+/**
+ * Provides Audit services
+ * @module src/admin/routes/versions/1.0/services/Audit
+ */
 module.exports = app => {
 
     const Audit = app.db.Audit;

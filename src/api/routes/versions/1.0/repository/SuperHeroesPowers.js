@@ -1,3 +1,7 @@
+/**
+ * Provides SuperHeroesPowers repositories
+ * @module src/api/routes/versions/1.0/repository/SuperHeroesPowers
+ */
 module.exports = app => {
 
     const SuperHeroPowers = app.db.SuperHeroesPowers;

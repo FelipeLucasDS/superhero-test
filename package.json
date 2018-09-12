@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "DB_TYPE=sqlite nyc mocha --recursive --reporter list --timeout 100000 --exit",
+    "doc": "jsdoc -c jsdoc.json .",
     "seq:migrate": "node_modules/.bin/sequelize db:migrate",
     "docker": "rm -rf node-modules && docker-compose build && docker-compose up",
     "docker:start": "docker-compose up",

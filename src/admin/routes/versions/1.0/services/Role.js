@@ -1,5 +1,8 @@
 const RoleRepo = require("../repository/Role")
-
+/**
+ * Provides Role services
+ * @module src/admin/routes/versions/1.0/services/Role
+ */
 module.exports = app => {
     const roleRepo = RoleRepo(app);
 
