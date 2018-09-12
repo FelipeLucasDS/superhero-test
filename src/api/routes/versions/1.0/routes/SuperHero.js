@@ -6,34 +6,6 @@ const SuperHeroService = require("../services/SuperHero");
 module.exports = app => {
 
   const sph = SuperHeroService(app);
-  /**
-   * Gets all super heroes paginated.
-   * @param {Number} ctx.query.page Page of pagination.
-   * @param {Number} ctx.query.limit Items per page.
-   * @return {{page: {page: Number, pages: Number},
-   *          {data: [{
-   *               id: Number, 
-   *               name: String, 
-   *               alias: String, 
-   *               SuperPowers: [{
-   *                  id: Number,
-   *                  name: String,
-   *                  description: String,
-   *                  SuperHeroesPowers: {
-   *                     superHeroId: Number,
-   *                     superPowerId: Number
-   *                  }
-   *               }],
-   *                ProtectionArea: {
-   *                   id: Number,
-   *                   name: String,
-   *                   lat: String,
-   *                   long: String,
-   *                   radius: Number
-   *               }
-   *         }]
-   *     }}
-   */
   router
     .get('/', async (ctx, next) => {
       //get all SuperHeros paginated
@@ -45,30 +17,6 @@ module.exports = app => {
       ctx.status = 200;
     })
 
-    /**
-   * Get super heroes by id.
-   * @param {Number} ctx.params.id Id of the super heroes.
-   * @return {{id: Number, 
-   *               name: String, 
-   *               alias: String, 
-   *               SuperPowers: [{
-   *                  id: Number,
-   *                  name: String,
-   *                  description: String,
-   *                  SuperHeroesPowers: {
-   *                     superHeroId: Number,
-   *                     superPowerId: Number
-   *                  }
-   *               }],
-   *                ProtectionArea: {
-   *                   id: Number,
-   *                   name: String,
-   *                   lat: String,
-   *                   long: String,
-   *                   radius: Number
-   *               }
-   *         }
-   */
   router.get('/:id', async (ctx, next) => {
     //get single SuperHero      
     ctx.body = await sph.getSingle(ctx.params.id);
