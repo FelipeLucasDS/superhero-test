@@ -10,6 +10,7 @@ Application test using KOA as base to node, docker to make the environment, supe
 **Running aplication with docker**
 
 To build and start the docker-compose server run:
+This, at the first time, can run an error because of database creation, if happens, re-run the command!
 ```
 npm run docker
 ```
@@ -47,8 +48,9 @@ npm run db:migrate
     `npm run test` or `npm run docker:test`
 
 ## Docs
-    The create documentation the jsdoc library was used, to run:    
-    `npm run doc`
+    The create documentation is using a generated yml of swagger, oppened by:
+        - [http://localhost:3001/public/swagger#/]Docker instance
+        - [http://localhost:3000/public/swagger#/]Local instance
 
 ## Dependencies
 

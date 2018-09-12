@@ -20,7 +20,7 @@ module.exports = app => {
         ])
 
         const pages = Math.ceil(count / limit);
-
+        data.forEach(item => item.password = undefined)
         return {
             data,
             page: {page, pages}

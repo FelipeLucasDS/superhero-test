@@ -12,6 +12,7 @@ const api = require('./api/index');
 const admin = require('./admin/index');
 const Sequelize = require('./lib/middleware/sequelize');
 const error = require('./lib/helpers/errorHandling');
+const swagger = require('./lib/middleware/swagger');
 
 app.config = JSON.parse(fs.readFileSync('./src/config/config.json'));
 
@@ -32,6 +33,7 @@ app.use((ctx, next) => {
     });
 });
 
+swagger(app);
 Sequelize(app);
 admin(app);
 api(app);

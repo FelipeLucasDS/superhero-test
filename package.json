@@ -8,7 +8,6 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "doc": "jsdoc -c jsdoc.json .",
     "test": "DB_TYPE=sqlite nyc mocha --recursive --reporter list --timeout 100000 --exit",
     "seq:migrate": "node_modules/.bin/sequelize db:migrate",
     "docker": "rm -rf node-modules && docker-compose build && docker-compose up",
@@ -32,6 +31,8 @@
     "mysql2": "^1.6.1",
     "passport-local": "^1.0.0",
     "sequelize": "^4.38.0",
+    "swagger2": "^1.0.1",
+    "swagger2-koa": "^1.0.2",
     "winston": "^3.1.0"
   },
   "devDependencies": {
