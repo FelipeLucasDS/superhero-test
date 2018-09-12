@@ -25,7 +25,9 @@ module.exports = (sequelize, DataType) => {
 			type:   DataType.ENUM,
 			values: ['CREATE', 'UPDATE', 'DELETE']
 		}
-	}, { timestamps: false });
+	}, { 
+		timestamps: false
+	});
 
 	return ProtectionArea;
 }
