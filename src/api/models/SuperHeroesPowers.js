@@ -10,9 +10,7 @@ module.exports = (sequelize, DataType) => {
 			type: DataType.INTEGER,
 			unique: false
 		}
-	}, {
-		tableName: 'SuperHeroesPowers'
-	});
+	}, { timestamps: false });
 
 	return SuperHeroesPowers;
 };

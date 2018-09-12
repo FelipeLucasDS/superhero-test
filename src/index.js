@@ -7,7 +7,7 @@ const adminRouter = require('./admin/routes/routes');
 const logger = require('koa-logger')
 
 const errorHandler = require('./lib/middleware/errorHandler');
-const Logger = require('./lib/middleware/logger');
+const systemLogger = require('./lib/middleware/logger');
 const api = require('./api/index');
 const admin = require('./admin/index');
 const Sequelize = require('./lib/middleware/sequelize');
@@ -26,6 +26,7 @@ app.use((ctx, next) => {
             ctx.status = err.status;
             ctx.body = err.msg;
         } else {
+            app.logger.error(err);
             throw err;
         }
     });
@@ -35,11 +36,12 @@ Sequelize(app);
 admin(app);
 api(app);
 app.errors = error;
+app.logger = systemLogger(app)
 app.use(logger());
 app.use(router(app).routes());
 app.use(adminRouter(app).routes());
 
-app.on('error', errorHandler);
+app.on('error', errorHandler(app));
 
 http.createServer(app.callback()).listen(process.env.ENV_PORT || 3001);
 

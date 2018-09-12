@@ -35,6 +35,13 @@ npm run start
 
 Will be opened by [http://localhost:3001](http://localhost:3001).
 
+##  Migrate database
+
+To create a default database to start those tests, run:
+```
+npm run db:migrate
+```
+
 ## Tests
     The application run in SQlite database and as the server, can be used in docker or not:    
     `npm run test` or `npm run docker:test`

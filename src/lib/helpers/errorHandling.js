@@ -1,7 +1,7 @@
 const messages = require('./message.json');
 
 /**
- * HTTP module provides common functions for a standard HTTP server.
+ * Provides common functions for error handling 
  * @module lib/helpers/errorHandling
  */
 
