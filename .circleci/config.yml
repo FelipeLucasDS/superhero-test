@@ -28,7 +28,7 @@ jobs:
 
       - run: yarn install
 
-      - run: yarn rebuild bcrypt --update-binary
+      - run: npm rebuild bcrypt --update-binary
 
       - save_cache:
           paths:
