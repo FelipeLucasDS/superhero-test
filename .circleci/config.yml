@@ -28,8 +28,6 @@ jobs:
 
       - run: yarn install
 
-      - run: npm rebuild bcrypt --update-binary
-
       - save_cache:
           paths:
             - node_modules
