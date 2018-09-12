@@ -27,6 +27,7 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
+      - run: npm rebuild bcrypt --update-binary
 
       - save_cache:
           paths:
