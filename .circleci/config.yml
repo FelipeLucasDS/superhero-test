@@ -26,9 +26,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v2-dependencies-
 
-      - run: npm install
+      - run: yarn install
 
-      - run: npm rebuild bcrypt --update-binary
+      - run: yarn rebuild bcrypt --update-binary
 
       - save_cache:
           paths:
@@ -36,4 +36,4 @@ jobs:
           key: v2-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: npm run test
+      - run: yarn test
