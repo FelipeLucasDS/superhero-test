@@ -37,9 +37,9 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "sqlite3": "^4.0.2",
     "sequelize-cli": "^4.1.1",
     "assert": "^1.4.1",
-    "sqlite3": "^4.0.2",
     "supertest": "^3.3.0",
     "chai": "^4.1.2",
     "jsdoc": "^3.5.5",
