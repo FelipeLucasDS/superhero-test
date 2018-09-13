@@ -1,0 +1,565 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Superheroes
+  description: 'TODO: Add Description'
+host: localhost:3000
+basePath: /
+securityDefinitions:
+  auth:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: http://localhost:3000
+    scopes: {}
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /public/1.0/api/auth/login:
+    post:
+      description: ''
+      summary: Auth login
+      tags:
+      - Misc
+      operationId: Public10ApiAuthLoginPost
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+  /1.0/api/superhero:
+    get:
+      description: ''
+      summary: get Superheroes
+      tags:
+      - Misc
+      operationId: 10ApiSuperheroGet
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: "page"
+        in: "path"
+        description: "Page of request"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "limit"
+        in: "path"
+        description: "Number of items per page"
+        required: false
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    post:
+      description: ''
+      summary: Create superhero
+      tags:
+      - Misc
+      operationId: 10ApiSuperheroPost
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superhero'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+  /1.0/api/superhero/{id}:
+    get:
+      description: ''
+      summary: Get superhero 1
+      tags:
+      - Misc
+      operationId: 10ApiSuperhero1Get
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of superhero to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    put:
+      description: ''
+      summary: Update superhero
+      tags:
+      - Misc
+      operationId: 10ApiSuperhero1Put
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of superhero to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superhero'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    delete:
+      description: ''
+      summary: delete superhero
+      tags:
+      - Misc
+      operationId: 10ApiSuperhero3Delete
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superhero'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+      
+  /1.0/api/user:
+    get:
+      description: ''
+      summary: http://localhost:3000/1.0/api/user
+      tags:
+      - Misc
+      operationId: 10ApiUserGet
+      produces:
+      - application/json
+      parameters:
+      - name: "page"
+        in: "path"
+        description: "Page of request"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "limit"
+        in: "path"
+        description: "Number of items per page"
+        required: false
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    post:
+      description: ''
+      summary: post http://localhost:3000/1.0/api/user
+      tags:
+      - Misc
+      operationId: 10ApiUserPost
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/user'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+  /1.0/api/user/{id}:
+    put:
+      description: ''
+      summary: put http://localhost:3000/1.0/api/user
+      tags:
+      - Misc
+      operationId: 10ApiUser4Put
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/user'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    delete:
+      description: ''
+      summary: delete http://localhost:3000/1.0/api/user
+      tags:
+      - Misc
+      operationId: 10ApiUser4Delete
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/user'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+  /1.0/api/superpower:
+    get:
+      description: ''
+      summary: Search all superpowers paginated
+      tags:
+      - Misc
+      operationId: 10ApiSuperpowerGet
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: "page"
+        in: "path"
+        description: "Page of request"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "limit"
+        in: "path"
+        description: "Number of items per page"
+        required: false
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    post:
+      description: ''
+      summary: Create superpower
+      tags:
+      - Misc
+      operationId: 10ApiSuperpowerPost
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superpower'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+  /1.0/api/superpower/{id}:
+    get:
+      description: ''
+      summary: Get single superpower
+      tags:
+      - Misc
+      operationId: 10ApiSuperpower3Get
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of superpower"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    put:
+      description: ''
+      summary: Update superpower
+      tags:
+      - Misc
+      operationId: 10ApiSuperpower3Put
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of superpower"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superpower'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+    delete:
+      description: ''
+      summary: Delete superpower
+      tags:
+      - Misc
+      operationId: 10ApiSuperpower3Delete
+      produces:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of superpower"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/superpower'
+      responses:
+        200:
+          description: ''
+      security:
+      - auth: []
+definitions:
+  ProtectionArea:
+    title: ProtectionArea
+    example:
+      id: 1
+      name: Z city 2
+      lat: 123
+      long: 123
+      radius: 123
+    type: object
+    properties:
+      id:
+        description: ''
+        example: 1
+        type: integer
+        format: int32
+      name:
+        description: ''
+        example: Z city 2
+        type: string
+      lat:
+        description: ''
+        example: 123
+        type: string
+      long:
+        description: ''
+        example: 123
+        type: string
+      radius:
+        description: ''
+        example: 123
+        type: integer
+        format: int32
+    required:
+    - id
+    - name
+    - lat
+    - long
+    - radius
+  user:
+    title: user
+    example:
+      username: admin2
+      name: admin2
+      password: loren
+      role: ADMIN
+    type: object
+    properties:
+      username:
+        description: ''
+        example: admin2
+        type: string
+      name:
+        description: ''
+        example: admin2
+        type: string
+      password:
+        description: ''
+        example: loren
+        type: string
+      role:
+        description: ''
+        example: ADMIN
+        type: string
+    required:
+    - username
+    - name
+    - password
+    - role
+  superhero:
+    title: superhero
+    example:
+      name: Saitama
+      alias: Saitama
+      protectionArea:
+        name: Z city 2
+        lat: 123
+        long: 123
+        radius: 123
+      superPowers:
+      - 1
+    type: object
+    properties:
+      name:
+        description: ''
+        example: Saitama
+        type: string
+      alias:
+        description: ''
+        example: Saitama
+        type: string
+      protectionArea:
+        $ref: '#/definitions/ProtectionArea'
+      superPowers:
+        description: ''
+        example:
+        - 1
+        type: array
+        items:
+          type: integer
+          format: int32
+    required:
+    - name
+    - alias
+    - protectionArea
+    - superPowers
+  superpower:
+    title: superpower
+    example:
+      name: Soco 2
+      description: Soco normal 2
+    type: object
+    properties:
+      name:
+        description: ''
+        example: Soco 2
+        type: string
+      description:
+        description: ''
+        example: Soco normal 2
+        type: string
+    required:
+    - name
+    - description

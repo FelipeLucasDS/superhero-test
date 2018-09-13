@@ -5,6 +5,6 @@ const {ui} = require('swagger2-koa');
  * @module src/lib/middleware/swagger
  */
 module.exports = app => {
-    const document = swagger.loadDocumentSync('./public/api.yml');
+    const document = swagger.loadDocumentSync('./public/swagger.yml');
     app.use(ui(document, "/public/swagger"));
 }
