@@ -18,7 +18,9 @@ jobs:
 
     steps:
       - checkout
-
+      - run:
+          name: pre-dependencies
+          command: sudo pip install codecov
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -35,3 +37,8 @@ jobs:
         
       # run tests!
       - run: npm run test
+
+
+      - run:
+          name: post-test
+          command: codecov
