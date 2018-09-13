@@ -37,4 +37,4 @@ jobs:
       - run: npm run test
 
       # upload coverage!
-      - run: npm run test-coverage
+      - run: npm run report-coverage
