@@ -18,9 +18,7 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: pre-dependencies
-      
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -38,7 +36,5 @@ jobs:
       # run tests!
       - run: npm run test
 
-
-      - run:
-          name: post-test
-          command: codecov
+      # upload coverage!
+      - run: npm run test-coverage
