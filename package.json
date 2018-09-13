@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "test": "DB_TYPE=sqlite nyc mocha --recursive --reporter list --timeout 100000 --exit",
+    "test": "DB_TYPE=sqlite nyc mocha --recursive --reporter list --timeout 100000 --exit ",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "doc": "jsdoc -c jsdoc.json .",
     "seq:migrate": "node_modules/.bin/sequelize db:migrate",
     "docker": "rm -rf node-modules && docker-compose build && docker-compose up",
@@ -21,6 +22,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.2",
     "bcrypt": "^3.0.0",
+    "codecov": "^3.1.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",
     "koa-helmet": "^4.0.0",
