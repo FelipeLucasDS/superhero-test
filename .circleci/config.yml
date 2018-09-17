@@ -50,7 +50,7 @@ jobs:
               name: Show current place
               command: ls && pwd
           # Log the current branch
-          - run:
+        - run:
               name: Deploy Over SSH
               command: |
                 ssh ubuntu@ec2-52-15-65-252.us-east-2.compute.amazonaws.com "./update-env.sh"
