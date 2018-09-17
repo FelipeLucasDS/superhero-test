@@ -46,14 +46,17 @@ jobs:
           - image: circleci/node:9.11
       steps:
           
-        - run:
-              name: Show current place
-              command: ls && pwd
-          # Log the current branch
+        # Pull master on server
         - run:
               name: Deploy Over SSH
               command: |
-                ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_PATH} "./update-env.sh"
+                ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_PATH} "cd superhero-test && docker-compose down && git pull origin master"
+
+        # Build and run
+        - run:
+              name: Deploy Over SSH
+              command: |
+                ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_PATH} "cd superhero-test && docker-compose build && docker-compose up -d"
 
 workflows:
     version: 2
