@@ -38,3 +38,37 @@ jobs:
 
       # upload coverage!
       - run: npm run report-coverage
+
+  # The deploy job
+  deploy:
+      working_directory: ~/repo
+      docker:
+          - image: circleci/node:9.11
+      steps:
+          
+        - run:
+              name: Show current place
+              command: ls && pwd
+          # Log the current branch
+        - run:
+              name: Deploy Over SSH
+              command: |
+                ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_PATH} "./update-env.sh"
+
+workflows:
+    version: 2
+    # The build and deploy workflow
+    build_and_deploy:
+        jobs:
+            - build
+            # The deploy job will only run on the filtered branches and
+            # require the build job to be successful before it starts
+            - deploy:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only:
+                            - develop
+                            - circle-ci-deploy
+                            - master
