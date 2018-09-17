@@ -12,6 +12,7 @@
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "doc": "jsdoc -c jsdoc.json .",
     "seq:migrate": "node_modules/.bin/sequelize db:migrate",
+    "deploy": "ssh -i \"amazon-node.pem\" ubuntu@ec2-52-15-65-252.us-east-2.compute.amazonaws.com \"./update-env.sh\"",
     "docker": "rm -rf node-modules && docker-compose build && docker-compose up",
     "docker:start": "docker-compose up",
     "docker:install": "docker-compose build",
