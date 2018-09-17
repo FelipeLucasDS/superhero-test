@@ -40,6 +40,8 @@ jobs:
       - run: npm run report-coverage
 
       - save_cache:
+          paths:
+            - .
           key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
   # The deploy job
