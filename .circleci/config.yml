@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/X
+    working_directory: ~/repo
 
     steps:
       - checkout
@@ -38,12 +38,3 @@ jobs:
 
       # upload coverage!
       - run: npm run report-coverage
-
-      - run: npm run deploy
- 
- workflows:
-    version: 2
-    # The build and deploy workflow
-    build_and_deploy:
-        jobs:
-            - build
