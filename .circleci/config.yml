@@ -58,23 +58,11 @@ jobs:
           # dist folder that needs to be deployed
           - restore_cache:
               key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-          # Deploy to the EC2
-          - run:
-              name: Deploy to EC2
-              command: |
-                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                      ssh -i ".circleci/amazon-node.pem" ubuntu@ec2-52-15-65-252.us-east-2.compute.amazonaws.com
-                  fi
           # Log the current branch
           - run:
               name: Show current place
-              command: ls && pwd 
-          - run: 
-              name: start command
-              command: |
-                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                      cd superhero-test && docker-compose down && docker-compose build && docker-compose up -d
-                  fi
+              command: echo ls && echo pwd 
+
 workflows:
     version: 2
     # The build and deploy workflow
