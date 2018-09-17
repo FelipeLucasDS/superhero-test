@@ -58,10 +58,6 @@ jobs:
           # dist folder that needs to be deployed
           - restore_cache:
               key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-          # Set the signature version for the S3 auth
-          - run:
-              name: Setting Signature Version 4 for S3 Request Authentication
-              command: aws configure set default.s3.signature_version s3v4
           # Deploy to the EC2
           - run:
               name: Deploy to EC2
@@ -72,7 +68,7 @@ jobs:
           # Log the current branch
           - run:
               name: Show current place
-              command: ls && pwd
+              command: ls && pwd 
           - run: 
               name: start command
               command: |
