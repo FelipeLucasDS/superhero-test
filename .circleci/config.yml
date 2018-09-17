@@ -39,6 +39,11 @@ jobs:
       # upload coverage!
       - run: npm run report-coverage
 
+      - save_cache:
+          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+              - dist
+
   # The deploy job
   deploy:
       working_directory: ~/project
