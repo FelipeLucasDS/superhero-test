@@ -58,11 +58,6 @@ jobs:
           # dist folder that needs to be deployed
           - restore_cache:
               key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-          # Install AWS cli
-          - run:
-              name: Install aws cli
-              command:
-                  sudo apt-get -y -qq install awscli
           # Set the signature version for the S3 auth
           - run:
               name: Setting Signature Version 4 for S3 Request Authentication
@@ -74,6 +69,10 @@ jobs:
                   if [ "${CIRCLE_BRANCH}" == "master" ]; then
                       ssh -i ".circleci/amazon-node.pem" ubuntu@ec2-52-15-65-252.us-east-2.compute.amazonaws.com
                   fi
+          # Log the current branch
+          - run:
+              name: Show current place
+              command: ls && pwd
           - run: 
               name: start command
               command: |
