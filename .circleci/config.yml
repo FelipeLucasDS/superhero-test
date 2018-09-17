@@ -67,16 +67,18 @@ jobs:
           - run:
               name: Setting Signature Version 4 for S3 Request Authentication
               command: aws configure set default.s3.signature_version s3v4
-          # Deploy to the S3 bucket corresponding to the current branch
+          # Deploy to the EC2
           - run:
-              name: Deploy to S3
+              name: Deploy to EC2
               command: |
-                  if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
-                  elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
-                  elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
+                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                      ssh -i ".circleci/amazon-node.pem" ubuntu@ec2-52-15-65-252.us-east-2.compute.amazonaws.com
+                  fi
+          - run: 
+              name: start command
+              command: |
+                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                      cd superhero-test && docker-compose down && docker-compose build && docker-compose up -d
                   fi
 workflows:
     version: 2
