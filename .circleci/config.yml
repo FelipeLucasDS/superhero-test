@@ -40,9 +40,7 @@ jobs:
       - run: npm run report-coverage
 
       - save_cache:
-          key: v1-dist
-          paths:
-              - dist
+          key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
   # The deploy job
   deploy:
@@ -57,7 +55,7 @@ jobs:
           # Restore cache from the build job which contains the
           # dist folder that needs to be deployed
           - restore_cache:
-              key: v1-dist
+              key: v1-dist{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           # Install AWS cli
           - run:
               name: Install aws cli
@@ -72,11 +70,11 @@ jobs:
               name: Deploy to S3
               command: |
                   if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                      aws --region eu-west-2 s3 sync dist s3://superheroes-node-test/ --delete
+                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
                   elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                      aws --region eu-west-2 s3 sync dist s3://superheroes-node-test/ --delete
+                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
                   elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                      aws --region eu-west-2 s3 sync dist s3://superheroes-node-test/ --delete
+                      aws --region eu-west-2 s3 sync . s3://superheroes-node-test/ --delete
                   fi
 workflows:
     version: 2
